@@ -1,0 +1,71 @@
+<html ng-app="app">
+<head>
+<script src="lib/markerclusterer.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB860XjpiXMxzq52ha1qF8kx7-wBEpAg-c&libraries=visualization"></script>
+<script src="lib/angular.min.js"></script>
+<script src="app.js"></script>
+<script src="controller.js"></script>
+<script src="services.js"></script>
+<script src="lib/d3.v3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"></link>
+<link rel="stylesheet" type="text/css" href="lib/style.css"></link>
+</head>
+<body ng-controller="Ctrl">
+<h1>Chicago City Crime History</h1>
+<hr />
+<div id="filters" class="row">
+	<div class="col-md-3">
+		<label class="control-label">Start Year</label>
+		<select class="form-control" ng-model="startingDate" ng-change="updateDates()">
+			<option ng-repeat="d in startDates" value="{{d}}">{{ d }}</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label class="control-label">End Year</label>
+		<select class="form-control">
+			<option ng-repeat="d in endDates" value="{{d}}">{{ d }}</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label class="control-label">Type</label>
+		<select class="form-control"></select>
+	</div>
+	<div class="col-md-3">
+		<button class="btn btn-primary" style="margin-top: 24px;">Refresh</button>
+	</div>
+</div>
+<div id="row1" class="row">
+	<div class="col-md-6">
+		<div id="map"></div>
+	</div>
+	<div class="col-md-6">
+		<div id="table">
+			<table class="table table-fixed">
+	          <thead>
+	            <tr>
+	              <th class="col-xs-2">#</th>
+	              <th class="col-xs-5">Type</th>
+	              <th class="col-xs-5">Location</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	            <tr ng-repeat="point in visibleData | limitTo:totalDisplayed">
+	              <td class="col-xs-2">{{ point.ID }}</td>
+	              <td class="col-xs-5">{{ point.Type }}</td>
+	              <td class="col-xs-5">{{ point.Block }}</td>
+	            </tr> 
+	          </tbody>
+	        </table>
+        <button class="btn btn-primary btn-block" ng-click="loadMore()" ng-disabled="allDone">Load More</button>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<div id="hist"></div>
+	</div>
+	<div class="col-md-6"></div>
+</div>
+</script>
+</body>
+</html>
