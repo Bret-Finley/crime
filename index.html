@@ -54,8 +54,8 @@
 				<select class="form-control" ng-model="queryForm.queryBy">
 					<option value="$" selected="">*</option>
 					<option value="Block">Block</option>
-					<option value="ID">ID</option>
-					<option value="Type">Type</option>
+					<option value="Community">Community</option>
+					<option value="Type">Offense</option>
 				</select>
 			</div>
 			<div class="col-md-6">
@@ -69,18 +69,18 @@
 			<table class="col-md-12 sortable table table-fixed">
 	          <thead>
 	            <tr>
-	              <th class="col-xs-2">ID</th>
-	              <th class="col-xs-4">Type</th>
+	              <th class="col-xs-3">Offense</th>
+	              <th class="col-xs-3">Community</th>
 	              <th class="col-xs-5">Block</th>
 	              <th class="col-xs-1">GoTo</th>
 	            </tr>
 	          </thead>
 	          <tbody>
 	            <tr ng-repeat="point in visibleData | limitTo:totalDisplayed | filter:queryForm.query">
-	              <td class="col-xs-2">{{ point.ID }}</td>
-	              <td class="col-xs-4">{{ point.Type }}</td>
-	              <td class="col-xs-5">{{ point.Block }}</td>
-	              <td class="col-xs-1"><button type="button" class="btn btn-primary btn-block glyphicon glyphicon-screenshot" ng-click="goTo(point.Latitude, point.Longitude)"></button></td>
+					<td class="col-xs-3">{{ point.Type }}</td>
+					<td class="col-xs-3">{{ point.Community }}</td>
+					<td class="col-xs-5">{{ point.Block }}</td>
+					<td class="col-xs-1"><button type="button" class="btn btn-primary btn-block glyphicon glyphicon-screenshot" ng-click="goTo(point.Latitude, point.Longitude)"></button></td>
 	            </tr>
 	          </tbody>
 	        </table>

@@ -120,6 +120,7 @@ angular.module('app')
 			});
 			markers.push(marker);
 		});
+		//console.log(_.groupBy($scope.highData, 'Community'))
 		$scope.filterForm.startDates = Util.toArray(datesObject);
 		$scope.filterForm.types = Util.toArray(typesObject);
 		var cluster = new MarkerClusterer($scope.map, markers, {imagePath: 'images/m'});
