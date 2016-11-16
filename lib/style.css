@@ -10,7 +10,6 @@ html, body {
 
 table {
 	border: 3px solid #F7F7F9;
-	word-wrap: break-word;
 }
 
 .iwhr {
@@ -21,10 +20,18 @@ table {
 
 .iwtype {
 	float: left;
+	margin-right: 10px;
+	font-weight: bold;
 }
 
 .iwdate {
 	float: right;
+	margin-left:10px;
+	font-weight: bold;
+}
+
+.iwcomm {
+	font-style: italic;
 }
 
 .table-fixed tbody {

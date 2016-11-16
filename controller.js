@@ -95,7 +95,7 @@ angular.module('app')
 			var iw = new google.maps.InfoWindow({
 				content: "<span class='iwtype'>" + d.Type + "</span><span class='iwdate'>" + Util.formatDate(d.Date) + "</span>" +
 					"<hr class='iwhr' />" +
-					"<span>" + d.Community + "</span>" +
+					"<span class='iwcomm'>" + d.Community + "</span><br />" +
 					d.Block + "<br />" +
 					d.Desc + "<br />"
 			});
