@@ -1,6 +1,7 @@
 <html ng-app="app">
 <head>
 <script src="lib/sorttable.js"></script>
+<script src="lib/lodash.js"></script>
 <script src="lib/markerclusterer.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB860XjpiXMxzq52ha1qF8kx7-wBEpAg-c&libraries=visualization"></script>
 <script src="lib/angular.min.js"></script>
@@ -17,25 +18,30 @@
 <div id="filters" class="row">
 	<div class="col-md-3">
 		<label class="control-label">Start Year</label>
-		<select class="form-control" ng-model="startingDate" ng-change="updateDates()">
-			<option ng-repeat="d in startDates" value="{{d}}">{{ d }}</option>
+		<select class="form-control" ng-model="filterForm.startingDate" ng-change="updateDates()">
+			<option value="" selected>*</option>
+			<option ng-repeat="d in filterForm.startDates" value="{{d}}">{{ d }}</option>
 		</select>
 	</div>
 	<div class="col-md-3">
 		<label class="control-label">End Year</label>
-		<select class="form-control">
-			<option ng-repeat="d in endDates" value="{{d}}">{{ d }}</option>
+		<select class="form-control" ng-model="filterForm.endingDate">
+			<option value="" selected>*</option>
+			<option ng-repeat="d in filterForm.endDates" value="{{d}}">{{ d }}</option>
 		</select>
 	</div>
 	<div class="col-md-3">
 		<label class="control-label">Type</label>
-		<select class="form-control"></select>
+		<select class="form-control" ng-model="filterForm.type">
+			<option value="" selected>*</option>
+			<option ng-repeat="d in filterForm.types" value="{{d}}">{{ d }}</option>
+		</select>
 	</div>
 	<div class="col-md-1">
-		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-remove" style="margin-top: 24px;" ng-click="updateMap()"></button>
+		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-remove" style="margin-top: 24px;" ng-click="clearTopLevel()"></button>
 	</div>
 	<div class="col-md-1">
-		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-refresh" style="margin-top: 24px;" ng-click="clearTopLevel()"></button>
+		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-refresh" style="margin-top: 24px;" ng-click="updateMap()"></button>
 	</div>
 </div>
 <div id="row1" class="row">
@@ -45,20 +51,18 @@
 	<div class="col-md-6">
 		<div id="searchrow" class="row">
 			<div class="col-md-4">
-				<select class="form-control">
-					<option>Block</option>
-					<option>ID</option>
-					<option>Location</option>
+				<select class="form-control" ng-model="queryForm.queryBy">
+					<option value="$" selected="">*</option>
+					<option value="Block">Block</option>
+					<option value="ID">ID</option>
+					<option value="Type">Type</option>
 				</select>
 			</div>
-			<div class="col-md-4">
-				<input type="text" class="form-control" placeholder="Filter">
+			<div class="col-md-6">
+				<input type="text" class="form-control" placeholder="Query" ng-model="queryForm.query[queryForm.queryBy]">
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-default btn-block glyphicon glyphicon-remove" ng-click="clearFilter()"></button>
-			</div>
-			<div class="col-md-2">
-				<button class="btn btn-default btn-block glyphicon glyphicon-search" ng-click="execFilter()"></button>
+				<button class="btn btn-default btn-block glyphicon glyphicon-remove" ng-click="clearQuery()"></button>
 			</div>
 		</div>
 		<div id="table" class="row">
@@ -72,12 +76,12 @@
 	            </tr>
 	          </thead>
 	          <tbody>
-	            <tr ng-repeat="point in visibleData | limitTo:totalDisplayed">
+	            <tr ng-repeat="point in visibleData | limitTo:totalDisplayed | filter:queryForm.query">
 	              <td class="col-xs-2">{{ point.ID }}</td>
 	              <td class="col-xs-4">{{ point.Type }}</td>
 	              <td class="col-xs-5">{{ point.Block }}</td>
 	              <td class="col-xs-1"><button type="button" class="btn btn-primary btn-block glyphicon glyphicon-screenshot" ng-click="goTo(point.Latitude, point.Longitude)"></button></td>
-	            </tr> 
+	            </tr>
 	          </tbody>
 	        </table>
         <button type="button" class="btn btn-primary btn-block" ng-click="loadMore()" ng-disabled="allDone">Load More</button>

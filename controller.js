@@ -1,7 +1,7 @@
 
 angular.module('app')
 
-.controller("Ctrl", function($scope, Srvc) {
+.controller("Ctrl", function($scope, Srvc, Util) {
 	function updateBounds() {
 		var b = $scope.map.getBounds();
 		var sw = b.getSouthWest();
@@ -14,9 +14,9 @@ angular.module('app')
 
 	function filter() {
 		return $scope.highData.filter(function(d, i) {
-			return d.Latitude > $scope.minLat && 
-				  d.Latitude < $scope.maxLat && 
-				  d.Longitude > $scope.minLng && 
+			return d.Latitude > $scope.minLat &&
+				  d.Latitude < $scope.maxLat &&
+				  d.Longitude > $scope.minLng &&
 				  d.Longitude < $scope.maxLng;
 		});
 	}
@@ -43,12 +43,14 @@ angular.module('app')
 	$scope.maxLat;
 	$scope.minLng;
 	$scope.maxLng;
-	$scope.startDates = [1, 2, 3, 4, 5, 6, 7, 8];
-	$scope.types;
+	$scope.filterForm = {};
+	$scope.queryForm = {};
+	$scope.queryForm.queryBy = "$";
+	$scope.queryForm.query = {};
 
 	$scope.updateDates = function() {
-		$scope.endDates = $scope.startDates.filter(function(d) {
-			return d >= $scope.startingDate;
+		$scope.filterForm.endDates = $scope.filterForm.startDates.filter(function(d) {
+			return d >= $scope.filterForm.startingDate;
 		});
 	};
 
@@ -66,22 +68,26 @@ angular.module('app')
 	// This will be called anytime the high level data parameters change
 	// (begin/end, crime type, any other filter options that we want)
 	$scope.updateMap = function() {
-
+		// Srvc.filterData.then(function(data) {
+		// 	console.log(data)
+		// });
 	};
 
 	$scope.clearTopLevel = function() {
-
+		$scope.filterForm.startingDate = "";
+		$scope.filterForm.endingDate = "";
+		$scope.filterForm.type = "";
+		// updateMap()
 	};
 
-	$scope.clearFilter = function() {
-
-	};
-
-	$scope.execFilter = function() {
-
+	$scope.clearQuery = function() {
+		$scope.queryForm.queryBy = "$";
+		$scope.queryForm.query = {};
 	};
 
 	var markers = [];
+	var datesObject = {};
+	var typesObject = {};
 	var openWindow;
 	Srvc.getData().then(function(data) {
 		$scope.highData = data;
@@ -89,9 +95,11 @@ angular.module('app')
 			var iw = new google.maps.InfoWindow({
 				content: d.Type + "<hr />" +
 					"Location: " + d.Block + "<br />" +
-					"Date: " + d.Date.getTime() + "<br />" + 
+					"Date: " + d.Date.getTime() + "<br />" +
 					"Description: " + d.Desc + "<br />"
 			});
+			datesObject[d.Date.getFullYear()] = 1;
+			typesObject[d.Type] = 1;
 			var marker = new google.maps.Marker({
 				position: {
 					lat: d.Latitude,
@@ -112,7 +120,8 @@ angular.module('app')
 			});
 			markers.push(marker);
 		});
-		$scope.bar = "good bye"
+		$scope.filterForm.startDates = Util.toArray(datesObject);
+		$scope.filterForm.types = Util.toArray(typesObject);
 		var cluster = new MarkerClusterer($scope.map, markers, {imagePath: 'images/m'});
 	});
 });

@@ -17,8 +17,21 @@ angular.module('app')
 		return deferred.promise;
 	}
 
+	function filterData(filter) {
+		var deferred = $q.defer();
+		d3.csv("data/test.csv", row, function(data) {
+			var filteredData = data.filter(function(d) {
+				return d.Date.getFullYear() == 2014;
+			});
+			deferred.resolve(data);
+		});
+
+		return deferred.promise;
+	}
+
 	return {
-		getData: getData
+		getData: getData,
+		filterData: filterData
 	};
 })
 
@@ -64,23 +77,18 @@ angular.module('app')
 	return Crime;
 })
 
-.factory("SortedSet", function() {
-	var SortedSet = function() {
-		this.set = {};
-	};
+.factory("Util", function() {
 
-	SortedSet.prototype.add = function(item) {
-		this.set[item] = 1;
-	};
-
-	SortedSet.prototype.toArray = function() {
+	var toArray = function(obj) {
 		var array = [];
-		for(var prop in this.set) {
+		for(var prop in obj) {
 			array.push(prop);
 		}
 
 		return array.sort();
 	};
 
-	return SortedSet;
+	return {
+		toArray: toArray
+	};
 });
