@@ -62,4 +62,25 @@ angular.module('app')
 	};
 
 	return Crime;
+})
+
+.factory("SortedSet", function() {
+	var SortedSet = function() {
+		this.set = {};
+	};
+
+	SortedSet.prototype.add = function(item) {
+		this.set[item] = 1;
+	};
+
+	SortedSet.prototype.toArray = function() {
+		var array = [];
+		for(var prop in this.set) {
+			array.push(prop);
+		}
+
+		return array.sort();
+	};
+
+	return SortedSet;
 });

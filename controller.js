@@ -21,12 +21,6 @@ angular.module('app')
 		});
 	}
 
-	// This will be called anytime the high level data parameters change
-	// (begin/end, crime type, any other filter options that we want)
-	function updateMap() {
-
-	}
-
 	$scope.map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 41.754592961, lng: -87.741528537},
 		zoom: 8,
@@ -38,7 +32,7 @@ angular.module('app')
 	    $scope.$apply(function() {
 	    	var temp = filter();
 	    	if(temp.length != $scope.visibleData.length) {
-	    		$scope.visibleData = filter();
+	    		$scope.visibleData = temp;
 	    		$scope.totalDisplayed = 20;
 	    		$scope.allDone = $scope.totalDisplayed >= $scope.visibleData.length;
 	    	}
@@ -53,7 +47,6 @@ angular.module('app')
 	$scope.types;
 
 	$scope.updateDates = function() {
-		console.log($scope.startingDate)
 		$scope.endDates = $scope.startDates.filter(function(d) {
 			return d >= $scope.startingDate;
 		});
@@ -62,6 +55,30 @@ angular.module('app')
 	$scope.loadMore = function() {
 		$scope.totalDisplayed += 20;
 		$scope.allDone = $scope.totalDisplayed >= $scope.visibleData.length;
+	};
+
+	$scope.goTo = function(lat, lng) {
+		var loc = new google.maps.LatLng(lat, lng);
+		$scope.map.setZoom(20);
+		$scope.map.panTo(loc);
+	};
+
+	// This will be called anytime the high level data parameters change
+	// (begin/end, crime type, any other filter options that we want)
+	$scope.updateMap = function() {
+
+	};
+
+	$scope.clearTopLevel = function() {
+
+	};
+
+	$scope.clearFilter = function() {
+
+	};
+
+	$scope.execFilter = function() {
+
 	};
 
 	var markers = [];

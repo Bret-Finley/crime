@@ -1,5 +1,6 @@
 <html ng-app="app">
 <head>
+<script src="lib/sorttable.js"></script>
 <script src="lib/markerclusterer.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB860XjpiXMxzq52ha1qF8kx7-wBEpAg-c&libraries=visualization"></script>
 <script src="lib/angular.min.js"></script>
@@ -30,8 +31,11 @@
 		<label class="control-label">Type</label>
 		<select class="form-control"></select>
 	</div>
-	<div class="col-md-3">
-		<button class="btn btn-primary" style="margin-top: 24px;">Refresh</button>
+	<div class="col-md-1">
+		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-remove" style="margin-top: 24px;" ng-click="updateMap()"></button>
+	</div>
+	<div class="col-md-1">
+		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-refresh" style="margin-top: 24px;" ng-click="clearTopLevel()"></button>
 	</div>
 </div>
 <div id="row1" class="row">
@@ -39,24 +43,44 @@
 		<div id="map"></div>
 	</div>
 	<div class="col-md-6">
-		<div id="table">
-			<table class="table table-fixed">
+		<div id="searchrow" class="row">
+			<div class="col-md-4">
+				<select class="form-control">
+					<option>Block</option>
+					<option>ID</option>
+					<option>Location</option>
+				</select>
+			</div>
+			<div class="col-md-4">
+				<input type="text" class="form-control" placeholder="Filter">
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-default btn-block glyphicon glyphicon-remove" ng-click="clearFilter()"></button>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-default btn-block glyphicon glyphicon-search" ng-click="execFilter()"></button>
+			</div>
+		</div>
+		<div id="table" class="row">
+			<table class="col-md-12 sortable table table-fixed">
 	          <thead>
 	            <tr>
-	              <th class="col-xs-2">#</th>
-	              <th class="col-xs-5">Type</th>
-	              <th class="col-xs-5">Location</th>
+	              <th class="col-xs-2">ID</th>
+	              <th class="col-xs-4">Type</th>
+	              <th class="col-xs-5">Block</th>
+	              <th class="col-xs-1">GoTo</th>
 	            </tr>
 	          </thead>
 	          <tbody>
 	            <tr ng-repeat="point in visibleData | limitTo:totalDisplayed">
 	              <td class="col-xs-2">{{ point.ID }}</td>
-	              <td class="col-xs-5">{{ point.Type }}</td>
+	              <td class="col-xs-4">{{ point.Type }}</td>
 	              <td class="col-xs-5">{{ point.Block }}</td>
+	              <td class="col-xs-1"><button type="button" class="btn btn-primary btn-block glyphicon glyphicon-screenshot" ng-click="goTo(point.Latitude, point.Longitude)"></button></td>
 	            </tr> 
 	          </tbody>
 	        </table>
-        <button class="btn btn-primary btn-block" ng-click="loadMore()" ng-disabled="allDone">Load More</button>
+        <button type="button" class="btn btn-primary btn-block" ng-click="loadMore()" ng-disabled="allDone">Load More</button>
 		</div>
 	</div>
 </div>
