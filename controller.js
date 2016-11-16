@@ -93,10 +93,11 @@ angular.module('app')
 		$scope.highData = data;
 		data.forEach(function(d, i) {
 			var iw = new google.maps.InfoWindow({
-				content: d.Type + "<hr />" +
-					"Location: " + d.Block + "<br />" +
-					"Date: " + d.Date.getTime() + "<br />" +
-					"Description: " + d.Desc + "<br />"
+				content: "<span class='iwtype'>" + d.Type + "</span><span class='iwdate'>" + Util.formatDate(d.Date) + "</span>" +
+					"<hr class='iwhr' />" +
+					"<span>" + d.Community + "</span>" +
+					d.Block + "<br />" +
+					d.Desc + "<br />"
 			});
 			datesObject[d.Date.getFullYear()] = 1;
 			typesObject[d.Type] = 1;

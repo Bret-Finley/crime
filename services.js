@@ -237,6 +237,10 @@ angular.module('app')
 	    }
 	};
 
+	var formatDate = function(date) {
+		return dateFormat(date, "mm/dd/yy hh:MMTT");
+	};
+
 	var toArray = function(obj) {
 		var array = [];
 		for(var prop in obj) {
@@ -248,7 +252,8 @@ angular.module('app')
 
 	return {
 		toArray: toArray,
-		community: community
+		community: community,
+		formatDate: formatDate
 	};
 })
 

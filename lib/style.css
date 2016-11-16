@@ -10,6 +10,21 @@ html, body {
 
 table {
 	border: 3px solid #F7F7F9;
+	word-wrap: break-word;
+}
+
+.iwhr {
+	clear: both;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.iwtype {
+	float: left;
+}
+
+.iwdate {
+	float: right;
 }
 
 .table-fixed tbody {
