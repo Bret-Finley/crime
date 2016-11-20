@@ -1,1 +1,95 @@
 Bret Finley
+CS 564
+Assignment 5 - Final Project
+Visualization Techniques
+
+1) Included Files
+data/ - Directory containing various data files. "test.csv" is a cut down file
+	that I've been using for most tests.
+images/ - Directory containing images for the MarkerCluster library for Google
+	Maps.
+lib/ - Directory that contains library scripts and style sheets for the project.
+	I use a number of third party software packages and they all can be found
+	here.
+.gitignore - Ignore file for GitHub, which I've been using for source control.
+app.js - Angular module declaration file. The project became too unwieldly to
+	house in a single script, AngularJS became necessary in orer to better
+	modularize my project.
+controller.js - Main controller file. This is the only controller in the
+	application, most logic can be found here.
+directives.js -Script containing directive declarations.  haven't put together
+	any directives yet, but this is probably where all of the relevant D3 code
+	will go.
+index.html - This is the main HTML file for executing the application. This
+	contains all of the relevant markup for the project and contains some
+	Angular templating
+services.js - Angular services module. This file contains reusable library code
+	for the rest of the project. Things like data access and date formatting are
+	done here.
+
+2) Running
+All of the relevant libraries have been included locally for this project.
+Simply start a webserver which serves from the same directory as index.html.
+Once index.html is browsed to, it will execute scripts to grab the other
+resources in the project. The dataset can be downloaded from:
+https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2
+But I have also inlcuded a cut down dataset which should be run with the current
+version of the project. Test.csv is about 3 MB big and contains rows of records
+in comma separated value format.
+
+3) Data
+The data being visualized is a collection of reported crimes occuring within the
+city of Chicago, Illinois. These records have been sampled between January 1,
+2001, and Novembe 1, 2016. These records contain a variety of dimensions.
+
+ID - Unique identifier for the case.
+Case Number - Incremental numberic value representing that particular case.
+Date - Datetime on which the crime was reported.
+Block - City block on which the crime was reported.
+IUCR - Illinois Uniformed Crime Reporting number used to classify crimes.
+Primary Type - Category denoting the kind of criminal activity.
+Location Description - Brief description of the location of the crime.
+Arrest - Boolean value for whether or not an arrest was made.
+Domestic - Boolean value for whether or not the crime was a domestic dispute.
+Beat - The police beat this crme occurred on.
+District - City district this crime occurred in.
+Ward - City Ward in which the crime occurred.
+Community Area - 1 of the 77 community areas of Chicago.
+FBI Code - Identifier for mapping between numbers and offense categories.
+Year - The calendar year in which the crime was reported.
+Updated On - Datetime on which the record was last updated.
+Latitude - Geographical latitude value where the crime was reported.
+Longitude - Geographical longitude value where the crime was reported.
+Location - Combination of latitude and longitude values.
+
+4) Project
+This project is meant to give the user the ability to explore the crime history
+surrounding the city of Chicago, Illinois. Though the data is pulled from the
+last 15 years, there is still a lot to explore and discover concerning different
+demographics of crime and how they releate to the different areas of Chicago.
+Presently, the project consists of a few different views. At the top of the
+application is a form for filtering what I call the "top-level" dataset. This
+pretains to the data shown on the map in the left half of the screen. Users
+will be able to filter by year, type, and I want to add community area as well.
+Right now the filtering function doesn't work. The map view shows markers which
+pretain to a single instance of a reported crime within the city of Chicago. The
+colored circles show the number of markers present near that location. Clicking
+on these circles dives deeper into the map, giving the user a more granular view
+of the data. Eventually the user will get to an individual marker, which they
+can click. This will open an info window which will present some information
+concerning that crime in particular. Adjacent to the map is a table view of the
+crimes that are currently visible on the map. When the user pans the map around
+this will update the data displayed within the table. Each row in the table has
+a button which will pan the map to that crime's location.
+
+Going forward, I'd like to include some kind of histogram, or other D3 artifcat
+which will help the user explore the data more in-dept. I would like to have two
+views at the bottom of the screen. The first view could show an overfiew
+histogram of all of the aggregated data in the visualization. This could show
+the various types and amounts of crime distributed between Chicago's 77
+community areas. I may even try to add a combo box which allows the user to
+select which criteria to group the histogram with. The next screen I think will
+be a histogram of the local area of the map. This will show similar data to the
+other histogram, but will consist of only the data which is shown on the current
+map screen. I want this histogram to update in realtime so the user can get a
+feel as to trends in criminal activity depending on where they pan the map view.
