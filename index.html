@@ -17,25 +17,28 @@
 <h1>Chicago City Crime History</h1>
 <hr />
 <div id="filters" class="row">
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<label class="control-label">Start Year</label>
 		<select class="form-control" ng-model="filterForm.startingDate" ng-change="updateDates()">
-			<option value="" selected>*</option>
 			<option ng-repeat="d in filterForm.startDates" value="{{d}}">{{ d }}</option>
 		</select>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<label class="control-label">End Year</label>
-		<select class="form-control" ng-model="filterForm.endingDate">
-			<option value="" selected>*</option>
+		<select class="form-control" ng-model="filterForm.endingDate" ng-disabled="filterForm.endDates.length == 0">
 			<option ng-repeat="d in filterForm.endDates" value="{{d}}">{{ d }}</option>
 		</select>
 	</div>
 	<div class="col-md-3">
 		<label class="control-label">Type</label>
-		<select class="form-control" ng-model="filterForm.type">
-			<option value="" selected>*</option>
+		<select multiple class="form-control" ng-model="filterForm.selectedTypes">
 			<option ng-repeat="d in filterForm.types" value="{{d}}">{{ d }}</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label class="control-label">Community</label>
+		<select multiple class="form-control" ng-model="filterForm.selectedComms">
+			<option ng-repeat="d in filterForm.communities track by $index" value="{{$index}}">{{ d.Name }}</option>
 		</select>
 	</div>
 	<div class="col-md-1">
@@ -77,8 +80,8 @@
 	            </tr>
 	          </thead>
 	          <tbody>
-	            <tr ng-repeat="point in visibleData | limitTo:totalDisplayed | filter:queryForm.query">
-					<td class="col-xs-3">{{ point.Type }}</td>
+	            <tr ng-repeat="point in visibleData | limitTo:totalDisplayed | filter:queryForm.query" ng-mouseenter="showMarker(point)" ng-mouseleave="clearMarkers()">
+					<td class="col-xs-3" title="{{ point.Type }}">{{ point.Type }}</td>
 					<td class="col-xs-3">{{ point.Community }}</td>
 					<td class="col-xs-5">{{ point.Block }}</td>
 					<td class="col-xs-1"><button type="button" class="btn btn-primary btn-block glyphicon glyphicon-screenshot" ng-click="goTo(point.Latitude, point.Longitude)"></button></td>

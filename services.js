@@ -1,7 +1,7 @@
 
 angular.module('app')
 
-.factory("Util", function() {
+.factory("UtilSrvc", function() {
 
 	var community = {
 	    "1": {
@@ -237,6 +237,16 @@ angular.module('app')
 	    }
 	};
 
+	var dates = [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+		2011, 2012, 2013, 2014, 2015, 2016];
+
+	var types = ["ARSON", "ASSAULT", "BATTERY", "BURGLARY", "CRIM SEXUAL ASSAULT",
+		"CRIMINAL DAMAGE", "CRIMINAL TRESPASS", "DECEPTIVE PRACTICE", "INTERFERENCE WITH PUBLIC OFFICER",
+		"INTIMIDATION", "KIDNAPPING", "LIQUOR LAW VIOLATION", "MOTOR VEHICLE THEFT",
+		"NARCOTICS", "OBSCENITY", "OFFENSE INVOLVING CHILDREN", "OTHER NARCOTIC VIOLATION",
+		"OTHER OFFENSE", "PROSTITUTION", "PUBLIC PEACE VIOLATION", "ROBBERY", "SEX OFFENSE",
+		"STALKING", "THEFT", "WEAPONS VIOLATION"];
+
 	var formatDate = function(date) {
 		return dateFormat(date, "mm/dd/yy hh:MMTT");
 	};
@@ -252,12 +262,14 @@ angular.module('app')
 
 	return {
 		toArray: toArray,
+		dates: dates,
+		types: types,
 		community: community,
 		formatDate: formatDate
 	};
 })
 
-.factory("Crime", function(Util) {
+.factory("Crime", function(UtilSrvc) {
 	var Crime = function(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) {
 		this.Arrest = a;
 		this.Beat = b;
@@ -282,7 +294,7 @@ angular.module('app')
 				parseInt(d.Beat, 10),
 				d.Block,
 				d["Case Number"],
-				Util.community[d["Community Area"]].Name,
+				UtilSrvc.community[d["Community Area"]].Name,
 				new Date(d.Date),
 				d.Description,
 				d.District,
@@ -299,7 +311,7 @@ angular.module('app')
 	return Crime;
 })
 
-.factory("Srvc", function($q, $http, Crime) {
+.factory("DataSrvc", function($q, $http, Crime) {
 
 	function row(d) {
 		return Crime.build(d);
@@ -315,20 +327,81 @@ angular.module('app')
 		return deferred.promise;
 	}
 
-	function filterData(filter) {
-		var deferred = $q.defer();
-		d3.csv("data/test.csv", row, function(data) {
-			var filteredData = data.filter(function(d) {
-				return d.Date.getFullYear() == 2014;
-			});
-			deferred.resolve(data);
+	return {
+		getData: getData
+	};
+})
+
+.factory("MapSrvc", function(UtilSrvc) {
+
+	var map;
+	var openWindow;
+	var markers = [];
+
+	function initMap() {
+		if(map) {
+			return map;
+		}
+
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: {lat: 41.754592961, lng: -87.741528537},
+			zoom: 8,
 		});
 
-		return deferred.promise;
+		return map;
+	};
+
+	function goTo(lat, lng) {
+		var loc = new google.maps.LatLng(lat, lng);
+		map.setZoom(20);
+		map.panTo(loc);
 	}
 
+	function addMarkers(data) {
+		data.forEach(function(d, i) {
+			var iw = new google.maps.InfoWindow({
+				content: "<span class='iwtype'>" + d.Type + "</span><span class='iwdate'>" + UtilSrvc.formatDate(d.Date) + "</span>" +
+					"<hr class='iwhr' />" +
+					"<span class='iwcomm'>" + d.Community + "</span>, <span class='iwcomm'>" + d.Location + "</span><br />" +
+					d.Block + "<br />" +
+					d.Desc + "<br />"
+			});
+			var marker = new google.maps.Marker({
+				position: {
+					lat: d.Latitude,
+					lng: d.Longitude
+				}
+			});
+			marker.addListener('click', function() {
+				if(openWindow) {
+					openWindow.close();
+					openWindow = iw;
+				} else {
+					openWindow = iw;
+				}
+
+				// var latlng = new google.maps.LatLng(d.Latitude, d.Longitude);
+				// map.panTo(latlng);
+				iw.open(map, marker);
+			});
+			markers.push(marker);
+		});
+		
+		var cluster = new MarkerClusterer(map, markers, {imagePath: 'images/m'});
+	}
+
+	function removeMarkers() {
+
+	}
+
+	function highlightMarkers(markers) {
+
+	}
+
+
 	return {
-		getData: getData,
-		filterData: filterData
+		initMap: initMap,
+		goTo: goTo,
+		addMarkers: addMarkers
 	};
 });
