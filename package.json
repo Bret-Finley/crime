@@ -1,0 +1,29 @@
+{
+  "name": "crime",
+  "version": "1.0.0",
+  "description": "Crime visualization application for CS564.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bret-Finley/crime.git"
+  },
+  "keywords": [
+    "Data",
+    "Visualization",
+    "Chicago",
+    "Crime"
+  ],
+  "author": "Bret Finley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bret-Finley/crime/issues"
+  },
+  "homepage": "https://github.com/Bret-Finley/crime#readme",
+  "dependencies": {
+    "csv-parser": "^1.11.0",
+    "express": "^4.14.0"
+  }
+}

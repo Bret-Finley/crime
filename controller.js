@@ -1,7 +1,7 @@
 
 angular.module('app')
 
-.controller("Ctrl", function($scope, DataSrvc, UtilSrvc, MapSrvc) {
+.controller("Ctrl", function($scope, Crime, DataSrvc, UtilSrvc, MapSrvc) {
 	function updateBounds() {
 		var b = $scope.map.getBounds();
 		var sw = b.getSouthWest();
@@ -65,16 +65,27 @@ angular.module('app')
 	};
 
 	$scope.updateMap = function() {
-		console.log($scope.filterForm)
+		// clear markers
+		for(var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
+		}
+		markers = [];
+		DataSrvc.getData($scope.startingDate, $scope.endingDate, $scope.selectedComms,
+			$scope.selectedTypes).then(function(data) {
+				$scope.highData = data.map(function(d) {
+					return Crime.build(d);
+				});
+				MapSrvc.addMarkers($scope.highData);
+		});
 	};
 
 	$scope.clearTopLevel = function() {
 		$scope.filterForm.startingDate = "";
 		$scope.filterForm.endingDate = "";
 		$scope.filterForm.endDates = [];
-		$scope.filterForm.selectedTypes = [];
 		$scope.filterForm.selectedComms = [];
-		// updateMap()
+		$scope.filterForm.selectedTypes = [];
+		// $scope.updateMap()
 	};
 
 	$scope.clearQuery = function() {
@@ -92,8 +103,10 @@ angular.module('app')
 
 	var markers = [];
 	var openWindow;
-	DataSrvc.getData().then(function(data) {
-		$scope.highData = data;
+	DataSrvc.getData(2010, 2014).then(function(data) {
+		$scope.highData = data.map(function(d) {
+			return Crime.build(d);
+		});
 		MapSrvc.addMarkers($scope.highData);
-	});
+	})
 });

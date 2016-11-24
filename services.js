@@ -317,15 +317,24 @@ angular.module('app')
 		return Crime.build(d);
 	};
 
-	function getData() {
-		var deferred = $q.defer();
+	function getData(begin, end, comms, types) {
+		begin = begin || 2001;
+		end = end || 2016;
+		comms = comms || ["all"];
+		types = types || ["all"];
 
-		d3.csv("data/test.csv", row, function(data) {
-			deferred.resolve(data);
+		comms = comms.join(',');
+		types = types.join(',');
+
+		return $http.get('http://localhost:3000/data?' +
+			'begin=' + begin + "&end=" + end + '&comms=' + comms + '&types=' + types)
+			.then(function(res) {
+				return res.data;
+		}, function(error) {
+			console.error(error);
+			return $q.reject(error);
 		});
-
-		return deferred.promise;
-	}
+	};
 
 	return {
 		getData: getData
@@ -386,7 +395,7 @@ angular.module('app')
 			});
 			markers.push(marker);
 		});
-		
+
 		var cluster = new MarkerClusterer(map, markers, {imagePath: 'images/m'});
 	}
 
