@@ -80,3 +80,25 @@ td {
 #searchrow {
 	margin-bottom: 10px;
 }
+
+
+rect.bordered {
+	stroke: #E6E6E6;
+	stroke-width:2px;
+	z-index: -1;
+}
+
+text.mono {
+	font-size: 9pt;
+	font-family: Consolas, courier;
+	fill: #aaa;
+	z-index: 999;
+}
+
+text.axis-workweek {
+	fill: #000;
+}
+
+text.axis-worktime {
+	fill: #000;
+}

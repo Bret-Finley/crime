@@ -329,6 +329,7 @@ angular.module('app')
 		return $http.get('http://localhost:3000/data?' +
 			'begin=' + begin + "&end=" + end + '&comms=' + comms + '&types=' + types)
 			.then(function(res) {
+				console.log(res)
 				return res.data;
 		}, function(error) {
 			console.error(error);
@@ -345,6 +346,7 @@ angular.module('app')
 
 	var map;
 	var openWindow;
+	var clusterer;
 	var markers = [];
 
 	function initMap() {
@@ -367,6 +369,7 @@ angular.module('app')
 	}
 
 	function addMarkers(data) {
+		markers = [];
 		data.forEach(function(d, i) {
 			var iw = new google.maps.InfoWindow({
 				content: "<span class='iwtype'>" + d.Type + "</span><span class='iwdate'>" + UtilSrvc.formatDate(d.Date) + "</span>" +
@@ -396,11 +399,11 @@ angular.module('app')
 			markers.push(marker);
 		});
 
-		var cluster = new MarkerClusterer(map, markers, {imagePath: 'images/m'});
+		clusterer =  new MarkerClusterer(map, markers, {imagePath: 'images/m'});
 	}
 
 	function removeMarkers() {
-
+		clusterer.clearMarkers();
 	}
 
 	function highlightMarkers(markers) {
@@ -411,6 +414,8 @@ angular.module('app')
 	return {
 		initMap: initMap,
 		goTo: goTo,
-		addMarkers: addMarkers
+		addMarkers: addMarkers,
+		removeMarkers: removeMarkers,
+		markers: markers
 	};
 });

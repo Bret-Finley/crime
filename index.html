@@ -3,13 +3,14 @@
 <script src="lib/sorttable.js"></script>
 <script src="lib/date.format.js"></script>
 <script src="lib/lodash.js"></script>
+<script src="lib/d3.v3.min.js"></script>
 <script src="lib/markerclusterer.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB860XjpiXMxzq52ha1qF8kx7-wBEpAg-c&libraries=visualization"></script>
 <script src="lib/angular.min.js"></script>
 <script src="app.js"></script>
 <script src="controller.js"></script>
 <script src="services.js"></script>
-<script src="lib/d3.v3.min.js"></script>
+<script src="directives.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"></link>
 <link rel="stylesheet" type="text/css" href="lib/style.css"></link>
 </head>
@@ -45,7 +46,7 @@
 		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-remove" style="margin-top: 24px;" ng-click="clearTopLevel()"></button>
 	</div>
 	<div class="col-md-1">
-		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-refresh" style="margin-top: 24px;" ng-click="updateMap()"></button>
+		<button type="button" class="btn btn-primary btn-block glyphicon glyphicon-refresh" style="margin-top: 24px;" ng-disabled="!filterForm.endingDate" ng-click="updateMap()"></button>
 	</div>
 </div>
 <div id="row1" class="row">
@@ -94,7 +95,7 @@
 </div>
 <div class="row">
 	<div class="col-md-6">
-		<div id="hist"></div>
+		<crime-heatmap></crime-heatmap>
 	</div>
 	<div class="col-md-6"></div>
 </div>

@@ -65,13 +65,9 @@ angular.module('app')
 	};
 
 	$scope.updateMap = function() {
-		// clear markers
-		for(var i = 0; i < markers.length; i++) {
-			markers[i].setMap(null);
-		}
-		markers = [];
-		DataSrvc.getData($scope.startingDate, $scope.endingDate, $scope.selectedComms,
-			$scope.selectedTypes).then(function(data) {
+		MapSrvc.removeMarkers();
+		DataSrvc.getData($scope.filterForm.startingDate, $scope.filterForm.endingDate,
+			$scope.filterForm.selectedComms, $scope.filterForm.selectedTypes).then(function(data) {
 				$scope.highData = data.map(function(d) {
 					return Crime.build(d);
 				});
@@ -83,9 +79,9 @@ angular.module('app')
 		$scope.filterForm.startingDate = "";
 		$scope.filterForm.endingDate = "";
 		$scope.filterForm.endDates = [];
-		$scope.filterForm.selectedComms = [];
-		$scope.filterForm.selectedTypes = [];
-		// $scope.updateMap()
+		$scope.filterForm.selectedComms = undefined;
+		$scope.filterForm.selectedTypes = undefined;
+		$scope.updateMap();
 	};
 
 	$scope.clearQuery = function() {
@@ -93,20 +89,11 @@ angular.module('app')
 		$scope.queryForm.query = {};
 	};
 
-	$scope.showMarker = function() {
-
-	};
-
-	$scope.clearMarkers = function() {
-
-	};
-
-	var markers = [];
 	var openWindow;
-	DataSrvc.getData(2010, 2014).then(function(data) {
+	DataSrvc.getData(2010, 2012).then(function(data) {
 		$scope.highData = data.map(function(d) {
 			return Crime.build(d);
 		});
 		MapSrvc.addMarkers($scope.highData);
-	})
+	});
 });
