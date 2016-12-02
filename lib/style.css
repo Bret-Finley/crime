@@ -85,10 +85,25 @@ td {
 	margin-bottom: 10px;
 }
 
-#chart {
+#heat {
+	padding: 0px;
+	margin: 0px;
 	overflow: scroll;
+	height: 400px;
 }
 
+#comms {
+	overflow: hidden;
+}
+
+#types {
+	overflow: hidden;
+	padding: 0px;
+}
+
+#legend {
+
+}
 
 rect.bordered {
 	stroke: #E6E6E6;
@@ -99,14 +114,5 @@ rect.bordered {
 text.mono {
 	font-size: 9pt;
 	font-family: Consolas, courier;
-	fill: #aaa;
-	z-index: 999;
-}
-
-text.axis-workweek {
-	fill: #000;
-}
-
-text.axis-worktime {
 	fill: #000;
 }

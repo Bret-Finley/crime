@@ -4,19 +4,24 @@ angular.module('app')
 .directive("crimeHeatmap", function(UtilSrvc) {
 	return {
 		restrict: 'E',
-		template: '<div id="chart"></div>',
+		templateUrl: 'heatmap.html',
 		link: function($scope, element, attrs) {
 
 			var themap;
 			var maxScrollWidth;
 			var maxScrollHeight;
 			function scroll() {
-				console.info(themap.scrollLeft / maxScrollWidth)
-				//console.log(themap.scrollTop / maxScrollHeight);
+				if(themap.scrollTop) {
+					var top = -themap.scrollTop;
+					svgTypes.attr("transform", "translate(0," + top + ")");
+				} else {
+					var left = -themap.scrollLeft;
+					svgComms.attr("transform", "translate(" + left + ", 0)");
+				}
 			}
 
 			function done() {
-				themap = element[0].firstChild;
+				themap = element.children()[1].children[1];
 				themap.onscroll = scroll;
 				maxScrollWidth = themap.scrollWidth - themap.clientWidth;
 				maxScrollHeight = themap.scrollHeight - themap.clientHeight;
@@ -34,17 +39,36 @@ angular.module('app')
 	        var height = 430 - margin.top - margin.bottom;
 	        var gridSize = 40;
 	        var legendElementWidth = 80;
-	        var colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"]; // alternatively colorbrewer.YlGnBu[9]
+	        var colors = ["#2166ac", "#4393c3", "#92c5de", "#d1e5f0", "#f7f7f7", "#fddbc7", "#f4a582", "#d6604d", "#b2182b"]; // alternatively colorbrewer.YlGnBu[9]
 	        var communities = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35];
 	        var types = ["ARSON", "ASSAULT", "BATTERY", "BURGLARY", "CRIM SEXUAL ASSAULT", "CRIMINAL DAMAGE", "CRIMINAL TRESPASS"];
 
-            var svg = d3.select("#chart").append("svg")
-            							 .attr("width", width + margin.left + margin.right)
-            							 .attr("height", height + margin.top + margin.bottom)
-            							 .append("g")
-            							 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	        var svgComms = d3.select("#comms").append("svg")
+	        								  .attr("width", communities.length * gridSize)
+	        								  .attr("height", 14)
+	        								  .append("g");
 
-            var commLabels = svg.selectAll(".dayLabel")
+	        var svgTypes = d3.select("#types").append("svg")
+	        								  .attr("width", 80)
+	        								  .attr("height", types.length * gridSize)
+	        								  .append("g");
+
+	        var svgLegend = d3.select("#legend").append("svg")
+	        									.attr("width", communities.length * gridSize)
+	        									.attr("height", 40)
+	        									.append("g");
+
+	        var commLabels = svgComms.selectAll(".commLabel")
+            					.data(communities)
+            					.enter().append("text")
+            					.text(function(d) { return d; })
+            					.attr("x", function(d, i) { return i * gridSize; })
+            					.attr("y", 0)
+            					.style("text-anchor", "middle")
+            					.attr("transform", "translate(0," + 14 +")")
+            					.attr("class", "mono");
+
+            var typeLabels = svgTypes.selectAll(".typeLabel")
             					.data(types)
             					.enter()
             					.append("text")
@@ -52,18 +76,15 @@ angular.module('app')
             					.attr("x", 0)
             					.attr("y", function (d, i) { return i * gridSize; })
             					.style("text-anchor", "end")
-            					.attr("transform", "translate(-6," + gridSize / 1.5 + ")")
-            					.attr("class", function (d, i) { return ((i >= 0 && i <= 4) ? "dayLabel mono axis axis-workweek" : "dayLabel mono axis"); });
+            					.attr("transform", "translate(60," + gridSize / 2 + ")")
+            					.attr("class", "mono");
 
-            var typeLabels = svg.selectAll(".timeLabel")
-            					.data(communities)
-            					.enter().append("text")
-            					.text(function(d) { return d; })
-            					.attr("x", function(d, i) { return i * gridSize; })
-            					.attr("y", 0)
-            					.style("text-anchor", "middle")
-            					.attr("transform", "translate(" + gridSize / 2 + ", -6)")
-            					.attr("class", function(d, i) { return ((i >= 7 && i <= 16) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis"); });
+            var svg = d3.select("#heat").append("svg")
+            							 //.attr("width", width + margin.left + margin.right)
+            							 .attr("width", communities.length * gridSize)
+            							 .attr("height", types.length * gridSize)
+            							 .append("g")
+            							 //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             function getCommFromIndex(i) {
             	return Math.floor(i / types.length);
