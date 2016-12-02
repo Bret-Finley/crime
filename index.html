@@ -10,7 +10,8 @@
 <script src="app.js"></script>
 <script src="controller.js"></script>
 <script src="services.js"></script>
-<script src="directives.js"></script>
+<script src="heatmap.js"></script>
+<script src="bargraph.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"></link>
 <link rel="stylesheet" type="text/css" href="lib/style.css"></link>
 </head>
@@ -39,7 +40,7 @@
 	<div class="col-md-3">
 		<label class="control-label">Community</label>
 		<select multiple class="form-control" ng-model="filterForm.selectedComms">
-			<option ng-repeat="d in filterForm.communities track by $index" value="{{$index}}">{{ d.Name }}</option>
+			<option ng-repeat="d in filterForm.communities" value="{{d.ind}}">{{ d.comm }}</option>
 		</select>
 	</div>
 	<div class="col-md-1">
@@ -83,7 +84,7 @@
 	          <tbody>
 	            <tr ng-repeat="point in visibleData | limitTo:totalDisplayed | filter:queryForm.query" ng-mouseenter="showMarker(point)" ng-mouseleave="clearMarkers()">
 					<td class="col-xs-3" title="{{ point.Type }}">{{ point.Type }}</td>
-					<td class="col-xs-3">{{ point.Community }}</td>
+					<td class="col-xs-3">{{ point.Community.Name }}</td>
 					<td class="col-xs-5">{{ point.Block }}</td>
 					<td class="col-xs-1"><button type="button" class="btn btn-primary btn-block glyphicon glyphicon-screenshot" ng-click="goTo(point.Latitude, point.Longitude)"></button></td>
 	            </tr>
@@ -93,11 +94,13 @@
 		</div>
 	</div>
 </div>
-<div class="row">
+<div id="row2" class="row">
 	<div class="col-md-6">
 		<crime-heatmap></crime-heatmap>
 	</div>
-	<div class="col-md-6"></div>
+	<div class="col-md-6">
+		<crime-bargraph></crime-bargraph>
+	</div>
 </div>
 </script>
 </body>

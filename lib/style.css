@@ -61,7 +61,11 @@ td {
 }
 
 #row1 {
-	height: 50%;
+	height: 500px;
+}
+
+#row2 {
+	height: 500px;
 }
 
 #table {
@@ -79,6 +83,10 @@ td {
 
 #searchrow {
 	margin-bottom: 10px;
+}
+
+#chart {
+	overflow: scroll;
 }
 
 
