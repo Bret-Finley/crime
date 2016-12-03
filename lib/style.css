@@ -89,7 +89,7 @@ td {
 	padding: 0px;
 	margin: 0px;
 	overflow: scroll;
-	height: 400px;
+	height: 500px;
 }
 
 #comms {
@@ -99,6 +99,7 @@ td {
 #types {
 	overflow: hidden;
 	padding: 0px;
+	height: 500px;
 }
 
 #legend {

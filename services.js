@@ -7,87 +7,104 @@ angular.module('app')
 	    "1": {
 	        Name: "Rogers Park",
 	        Code: 1,
-	        Abbr: "Rgrs Prk"
+	        Abbr: "Rgrs Prk",
+	        Idx: 60
 	    },
 	    "2": {
 	        Name: "West Ridge",
 	        Code: 2,
-	        Abbr: "W. Rdg"
+	        Abbr: "W. Rdg",
+	        Idx: 74
 	    },
 	    "3": {
 	        Name: "Uptown",
 	        Code: 3,
-	        Abbr: "Uptwn"
+	        Abbr: "Uptwn",
+	        Idx: 66
 	    },
 	    "4": {
 	        Name: "Lincoln Square",
 	        Code: 4,
-	        Abbr: "Lncn Sqr"
+	        Abbr: "Lncn Sqr",
+	        Idx: 40
 	    },
 	    "5": {
 	        Name: "North Center",
 	        Code: 5,
-	        Abbr: "N. Cntr"
+	        Abbr: "N. Cntr",
+	        Idx: 51
 	    },
 	    "6": {
 	        Name: "Lake View",
 	        Code: 6,
-	        Abbr: "Lk Vu"
+	        Abbr: "Lk Vu",
+	        Idx: 37
 	    },
 	    "7": {
 	        Name: "Lincoln Park",
 	        Code: 7,
-	        Abbr: "Lncn Prk"
+	        Abbr: "Lncn Prk",
+	        Idx: 38
 	    },
 	    "8": {
 	        Name: "Near North Side",
 	        Code: 8,
-	        Abbr: "Nr N. Sd"
+	        Abbr: "Nr N. Sd",
+	        Idx: 47
 	    },
 	    "9": {
 	        Name: "Edison Park",
 	        Code: 9,
-	        Abbr: "Edsn Prk"
+	        Abbr: "Edsn Prk",
+	        Idx: 22
 	    },
 	    "10": {
 	        Name: "Norwood Park",
 	        Code: 10,
-	        Abbr: "Nrwd Prk"
+	        Abbr: "Nrwd Prk",
+	        Idx: 54
 	    },
 	    "11": {
 	        Name: "Jefferson Park",
 	        Code: 11,
-	        Abbr: "Jfrsn Prk"
+	        Abbr: "Jfrsn Prk",
+	        Idx: 35
 	    },
 	    "12": {
 	        Name: "Forest Glen",
 	        Code: 12,
-	        Abbr: "Frst Gln"
+	        Abbr: "Frst Gln",
+	        Idx: 24
 	    },
 	    "13": {
 	        Name: "North Park",
 	        Code: 13,
-	        Abbr: "N. Prk"
+	        Abbr: "N. Prk",
+	        Idx: 53
 	    },
 	    "14": {
 	        Name: "Albany Park",
 	        Code: 14,
-	        Abbr: "Alb Prk"
+	        Abbr: "Alb Prk",
+	        Idx: 0
 	    },
 	    "15": {
 	        Name: "Portage Park",
 	        Code: 15,
-	        Abbr: "Prtg Prk"
+	        Abbr: "Prtg Prk",
+	        Idx: 57
 	    },
 	    "16": {
 	        Name: "Irving Park",
 	        Code: 16,
-	        Abbr: "Irv Prk"
+	        Abbr: "Irv Prk",
+	        Idx: 34
 	    },
 	    "17": {
 	        Name: "Dunning",
 	        Code: 17,
-	        Abbr: "Dnng"
+	        Abbr: "Dnng",
+	        Idx: 18
 	    },
 	    "18": {
 	        Name: "Monteclare",
@@ -97,297 +114,355 @@ angular.module('app')
 	    "19": {
 	        Name: "Belmont Cragin",
 	        Code: 19,
-	        Abbr: "Blmnt Cgn"
+	        Abbr: "Blmnt Cgn",
+	        Idx: 8
 	    },
 	    "20": {
 	        Name: "Hermosa",
 	        Code: 20,
-	        Abbr: "Hrmsa"
+	        Abbr: "Hrmsa",
+	        Idx: 31
 	    },
 	    "21": {
 	        Name: "Avondale",
 	        Code: 21,
-	        Abbr: "Avndl"
+	        Abbr: "Avndl",
+	        Idx: 7
 	    },
 	    "22": {
 	        Name: "Logan Square",
 	        Code: 22,
-	        Abbr: "Lgn Sq"
+	        Abbr: "Lgn Sqr"
 	    },
 	    "23": {
 	        Name: "Humboldt Park",
 	        Code: 23,
-	        Abbr: "Hmblt Prk"
+	        Abbr: "Hmblt Prk",
+	        Idx: 32
 	    },
 	    "24": {
 	        Name: "West Town",
 	        Code: 24,
-	        Abbr: "W. Twn"
+	        Abbr: "W. Twn",
+	        Idx: 75
 	    },
 	    "25": {
 	        Name: "Austin",
 	        Code: 25,
-	        Abbr: "Astn"
+	        Abbr: "Astn",
+	        Idx: 5
 	    },
 	    "26": {
 	        Name: "West Garfield Park",
 	        Code: 26,
-	        Abbr: "W. Grf Prk"
+	        Abbr: "W. Grf Prk",
+	        Idx: 71
 	    },
 	    "27": {
 	        Name: "East Garfield Park",
 	        Code: 27,
-	        Abbr: "E. Grf Prk"
+	        Abbr: "E. Grf Prk",
+	        Idx: 19
 	    },
 	    "28": {
 	        Name: "Near West Side",
 	        Code: 28,
-	        Abbr: "Nr W. Sd"
+	        Abbr: "Nr W. Sd",
+	        Idx: 49
 	    },
 	    "29": {
 	        Name: "North Lawndale",
 	        Code: 29,
-	        Abbr: "N. Lwndl"
+	        Abbr: "N. Lwndl",
+	        Idx: 52
 	    },
 	    "30": {
 	        Name: "South Lawndale",
 	        Code: 30,
-	        Abbr: "S. Lwndl"
+	        Abbr: "S. Lwndl",
+	        Idx: 64
 	    },
 	    "31": {
 	        Name: "Lower West Side",
 	        Code: 31,
-	        Abbr: "Lwr W. Sd"
+	        Abbr: "Lwr W. Sd",
+	        Idx: 42
 	    },
 	    "32": {
 	        Name: "Loop",
 	        Code: 32,
-	        Abbr: "Lp"
+	        Abbr: "Lp",
+	        Idx: 41
 	    },
 	    "33": {
 	        Name: "Near South Side",
 	        Code: 33,
-	        Abbr: "Nr S. Sd"
+	        Abbr: "Nr S. Sd",
+	        Idx: 48
 	    },
 	    "34": {
 	        Name: "Armour Square",
 	        Code: 34,
-	        Abbr: "Armr Sq"
+	        Abbr: "Armr Sqr",
+	        Idx: 2
 	    },
 	    "35": {
 	        Name: "Douglas",
 	        Code: 35,
-	        Abbr: "Dgls"
+	        Abbr: "Dgls",
+	        Idx: 17
 	    },
 	    "36": {
 	        Name: "Oakland",
 	        Code: 36,
-	        Abbr: "Oklnd"
+	        Abbr: "Oklnd",
+	        Idx: 56
 	    },
 	    "37": {
 	        Name: "Fuller Park",
 	        Code: 37,
-	        Abbr: "Fllr Prk"
+	        Abbr: "Fllr Prk",
+	        Idx: 25
 	    },
 	    "38": {
 	        Name: "Grand Boulevard",
 	        Code: 38,
-	        Abbr: "Grnd Blvd"
+	        Abbr: "Grnd Blvd",
+	        Idx: 28
 	    },
 	    "39": {
 	        Name: "Kenwood",
 	        Code: 39,
-	        Abbr: "Knwd"
+	        Abbr: "Knwd",
+	        Idx: 36
 	    },
 	    "40": {
 	        Name: "Washington Park",
 	        Code: 40,
-	        Abbr: "Wsh Prk"
+	        Abbr: "Wsh Prk",
+	        Idx: 68
 	    },
 	    "41": {
 	        Name: "Hyde Park",
 	        Code: 41,
-	        Abbr: "Hde Prk"
+	        Abbr: "Hde Prk",
+	        Idx: 33
 	    },
 	    "42": {
 	        Name: "Woodlawn",
 	        Code: 42,
-	        Abbr: "Wdlwn"
+	        Abbr: "Wdlwn",
+	        Idx: 76
 	    },
 	    "43": {
 	        Name: "South Shore",
 	        Code: 43,
-	        Abbr: "S. Shr"
+	        Abbr: "S. Shr",
+	        Idx: 65
 	    },
 	    "44": {
 	        Name: "Chatham",
 	        Code: 44,
-	        Abbr: "Chthm"
+	        Abbr: "Chthm",
+	        Idx: 14
 	    },
 	    "45": {
 	        Name: "Avalon Park",
 	        Code: 45,
-	        Abbr: "Avln Prk"
+	        Abbr: "Avln Prk",
+	        Idx: 6
 	    },
 	    "46": {
 	        Name: "South Chicago",
 	        Code: 46,
-	        Abbr: "S. Chic"
+	        Abbr: "S. Chic",
+	        Idx: 62
 	    },
 	    "47": {
 	        Name: "Burnside",
 	        Code: 47,
-	        Abbr: "Brnsd"
+	        Abbr: "Brnsd",
+	        Idx: 12
 	    },
 	    "48": {
 	        Name: "Calumet Heights",
 	        Code: 48,
-	        Abbr: "Clmt Hghts"
+	        Abbr: "Clmt Hghts",
+	        Idx: 13
 	    },
 	    "49": {
 	        Name: "Roseland",
 	        Code: 49,
-	        Abbr: "Rslnd"
+	        Abbr: "Rslnd",
+	        Idx: 61
 	    },
 	    "50": {
 	        Name: "Pullman",
 	        Code: 50,
-	        Abbr: "Pllmn"
+	        Abbr: "Pllmn",
+	        Idx: 58
 	    },
 	    "51": {
 	        Name: "South Deering",
 	        Code: 51,
-	        Abbr: "S. Drng"
+	        Abbr: "S. Drng",
+	        Idx: 63
 	    },
 	    "52": {
 	        Name: "East Side",
 	        Code: 52,
-	        Abbr: "E. Sd"
+	        Abbr: "E. Sd",
+	        Idx: 20
 	    },
 	    "53": {
 	        Name: "West Pullman",
 	        Code: 53,
-	        Abbr: "W. Pllmn"
+	        Abbr: "W. Pllmn",
+	        Idx: 73
 	    },
 	    "54": {
 	        Name: "Riverdale",
 	        Code: 54,
-	        Abbr: "Rvrdl"
+	        Abbr: "Rvrdl",
+	        Idx: 59
 	    },
 	    "55": {
 	        Name: "Hegewisch",
 	        Code: 55,
-	        Abbr: "Hgwsch"
+	        Abbr: "Hgwsch",
+	        Idx: 30
 	    },
 	    "56": {
 	        Name: "Garfield Ridge",
 	        Code: 56,
-	        Abbr: "Grf Rdg"
+	        Abbr: "Grf Rdg",
+	        Idx: 27
 	    },
 	    "57": {
 	        Name: "Archer Heights",
 	        Code: 57,
-	        Abbr: "Archr Hghts"
+	        Abbr: "Archr Hghts",
+	        Idx: 1
 	    },
 	    "58": {
 	        Name: "Brighton Park",
 	        Code: 58,
-	        Abbr: "Brtn Prk"
+	        Abbr: "Brtn Prk",
+	        Idx: 11
 	    },
 	    "59": {
 	        Name: "Mckinley Park",
 	        Code: 59,
-	        Abbr: "Mckin Prk"
+	        Abbr: "Mckin Prk",
+	        Idx: 44
 	    },
 	    "60": {
 	        Name: "Bridgeport",
 	        Code: 60,
-	        Abbr: "Brdgprt"
+	        Abbr: "Brdgprt",
+	        Idx: 10
 	    },
 	    "61": {
 	        Name: "New City",
 	        Code: 61,
-	        Abbr: "Nw Cty"
+	        Abbr: "Nw Cty",
+	        Idx: 50
 	    },
 	    "62": {
 	        Name: "West Elsdon",
 	        Code: 62,
-	        Abbr: "W. Elsdn"
+	        Abbr: "W. Elsdn",
+	        Idx: 69
 	    },
 	    "63": {
 	        Name: "Gage Park",
 	        Code: 63,
-	        Abbr: "Gg Prk"
+	        Abbr: "Gg Prk",
+	        Idx: 26
 	    },
 	    "64": {
 	        Name: "Clearing",
 	        Code: 64,
-	        Abbr: "Clrng"
+	        Abbr: "Clrng",
+	        Idx: 16
 	    },
 	    "65": {
 	        Name: "West Lawn",
 	        Code: 65,
-	        Abbr: "W. Lwn"
+	        Abbr: "W. Lwn",
+	        Idx: 72
 	    },
 	    "66": {
 	        Name: "Chicago Lawn",
 	        Code: 66,
-	        Abbr: "Chic Lwn"
+	        Abbr: "Chic Lwn",
+	        Idx: 15
 	    },
 	    "67": {
 	        Name: "West Englewood",
 	        Code: 67,
-	        Abbr: "W. Englwd"
+	        Abbr: "W. Englwd",
+	        Idx: 70
 	    },
 	    "68": {
 	        Name: "Englewood",
 	        Code: 68,
-	        Abbr: "Englwd"
+	        Abbr: "Englwd",
+	        Idx: 23
 	    },
 	    "69": {
 	        Name: "Greater Grand Crossing",
 	        Code: 69,
-	        Abbr: "Gt Gd Crss"
+	        Abbr: "Gt Gd Crss",
+	        Idx: 29
 	    },
 	    "70": {
 	        Name: "Ashburn",
 	        Code: 70,
-	        Abbr: "Ashbrn"
+	        Abbr: "Ashbrn",
+	        Idx: 3
 	    },
 	    "71": {
 	        Name: "Auburn Gresham",
 	        Code: 71,
-	        Abbr: "Abrn Gshm"
+	        Abbr: "Abrn Gshm",
+	        Idx: 4
 	    },
 	    "72": {
 	        Name: "Beverly",
 	        Code: 72,
-	        Abbr: "Bvrly"
+	        Abbr: "Bvrly",
+	        Idx: 9
 	    },
 	    "73": {
 	        Name: "Washington Heights",
 	        Code: 73,
-	        Abbr: "Wsh Hghts"
+	        Abbr: "Wsh Hghts",
+	        Idx: 67
 	    },
 	    "74": {
 	        Name: "Mount Greenwood",
 	        Code: 74,
-	        Abbr: "Mt. Grnwd"
+	        Abbr: "Mt. Grnwd",
+	        Idx: 46
 	    },
 	    "75": {
 	        Name: "Morgan Park",
 	        Code: 75,
-	        Abbr: "Mrgn Prk"
+	        Abbr: "Mrgn Prk",
+	        Idx: 45
 	    },
 	    "76": {
 	        Name: "O Hare",
 	        Code: 76,
-	        Abbr: "O Hr"
+	        Abbr: "O Hr",
+	        Idx: 55
 	    },
 	    "77": {
 	        Name: "Edgewater",
 	        Code: 77,
-	        Abbr: "Edgwtr"
+	        Abbr: "Edgwtr",
+	        Idx: 21
 	    }
 	};
 
@@ -423,6 +498,7 @@ angular.module('app')
 		toArray: toArray,
 		dates: dates,
 		types: types,
+		typeAbbrs: typeAbbrs,
 		community: community,
 		formatDate: formatDate
 	};

@@ -37,54 +37,14 @@ angular.module('app')
 		    var margin = { top: 50, right: 0, bottom: 100, left: 50 };
 		    var width = 960 - margin.left - margin.right;
 	        var height = 430 - margin.top - margin.bottom;
-	        var gridSize = 40;
+	        var gridSize = 50;
 	        var legendElementWidth = 80;
 	        var colors = ["#2166ac", "#4393c3", "#92c5de", "#d1e5f0", "#f7f7f7", "#fddbc7", "#f4a582", "#d6604d", "#b2182b"]; // alternatively colorbrewer.YlGnBu[9]
-	        var communities = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35];
-	        var types = ["ARSON", "ASSAULT", "BATTERY", "BURGLARY", "CRIM SEXUAL ASSAULT", "CRIMINAL DAMAGE", "CRIMINAL TRESPASS"];
-
-	        var svgComms = d3.select("#comms").append("svg")
-	        								  .attr("width", communities.length * gridSize)
-	        								  .attr("height", 14)
-	        								  .append("g");
-
-	        var svgTypes = d3.select("#types").append("svg")
-	        								  .attr("width", 80)
-	        								  .attr("height", types.length * gridSize)
-	        								  .append("g");
 
 	        var svgLegend = d3.select("#legend").append("svg")
-	        									.attr("width", communities.length * gridSize)
-	        									.attr("height", 40)
+	        									.attr("width", 700)
+	        									.attr("height", 100)
 	        									.append("g");
-
-	        var commLabels = svgComms.selectAll(".commLabel")
-            					.data(communities)
-            					.enter().append("text")
-            					.text(function(d) { return d; })
-            					.attr("x", function(d, i) { return i * gridSize; })
-            					.attr("y", 0)
-            					.style("text-anchor", "middle")
-            					.attr("transform", "translate(0," + 14 +")")
-            					.attr("class", "mono");
-
-            var typeLabels = svgTypes.selectAll(".typeLabel")
-            					.data(types)
-            					.enter()
-            					.append("text")
-            					.text(function (d) { return d; })
-            					.attr("x", 0)
-            					.attr("y", function (d, i) { return i * gridSize; })
-            					.style("text-anchor", "end")
-            					.attr("transform", "translate(60," + gridSize / 2 + ")")
-            					.attr("class", "mono");
-
-            var svg = d3.select("#heat").append("svg")
-            							 //.attr("width", width + margin.left + margin.right)
-            							 .attr("width", communities.length * gridSize)
-            							 .attr("height", types.length * gridSize)
-            							 .append("g")
-            							 //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             function getCommFromIndex(i) {
             	return Math.floor(i / types.length);
@@ -95,20 +55,78 @@ angular.module('app')
             }
 
             var cards;
+            var svgComms;
+            var svgTypes;
+            var svg;
+            var commLabels;
+            var typeLabels;
+            var communities;
+            var types;
             function update() {
 	        	if(!$scope.highData) return;
-	        	var min = 11;
+	        	var myCommunities = $scope.filterForm.selectedComms ? $scope.filterForm.selectedComms : d3.range(1, 78);
+	        	types = $scope.filterForm.selectedTypes ? $scope.filterForm.selectedTypes : UtilSrvc.types;
+	        	communities = myCommunities.map(function(d) {
+	        		return UtilSrvc.community[d];
+	        	});
+	        	communities = communities.sort(function(a, b) {
+	        		return a.Idx - b.Idx;
+	        	});
+	        	console.log(communities)
+	        	var min = d3.min(communities, function(d) {
+	        		return d.Idx;
+	        	});
 	        	var raw = $scope.highData;
 	        	var data = [];
 	        	raw.forEach(function(d, i) {
-	        		if(!communities.includes(d.Community.Code) || !types.includes(d.Type)) {
-	        			// do nothing
-	        		} else {
-	        			var index = (d.Community.Code - min) * types.length + types.indexOf(d.Type);
-	        			if(!data[index]) data[index] = 1;
-	        			else data[index]++;
-	        		}
+        			var index = (d.Community.Idx - min) * types.length + types.indexOf(d.Type);
+        			if(!data[index]) data[index] = 1;
+        			else data[index]++;
 	        	});
+
+	        	for(var i = 0; i < data.length; i++) {
+	        		data[i] = data[i] || 0;
+	        	}
+
+	        	svgComms = d3.select("#comms").append("svg")
+	        								  .attr("width", communities.length * gridSize)
+	        								  .attr("height", 60)
+	        								  .append("g");
+
+	        	svgTypes = d3.select("#types").append("svg")
+	        								  .attr("width", 80)
+	        								  .attr("height", types.length * gridSize)
+	        								  .append("g");
+
+	        	svg = d3.select("#heat").append("svg")
+            							 //.attr("width", width + margin.left + margin.right)
+            							 .attr("width", communities.length * gridSize)
+            							 .attr("height", types.length * gridSize)
+            							 .append("g")
+            							 //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	        	commLabels = svgComms.selectAll(".commLabel")
+            					.data(communities)
+            					.enter().append("text")
+            					.text(function(d) { return d.Abbr; })
+            					.attr("x", function(d, i) { return i * gridSize; })
+            					.attr("y", 0)
+            					.style("text-anchor", "start")
+            					.attr("transform", function(d, i) {
+            						return "translate(10,60)rotate(-45,"+ i * gridSize +",0)";
+            					})
+            					.attr("class", "mono");
+
+            	typeLabels = svgTypes.selectAll(".typeLabel")
+            					.data(types)
+            					.enter()
+            					.append("text")
+            					.text(function (d, i) { return UtilSrvc.typeAbbrs[i]; })
+            					.attr("x", 0)
+            					.attr("y", function (d, i) { return i * gridSize; })
+            					.style("text-anchor", "end")
+            					.attr("transform", "translate(60," +  2 * gridSize / 3 + ")")
+            					.attr("class", "mono");
 	        	
 	        	var colorScale = d3.scale.quantile()
 	        							 .domain([0, colors.length, d3.max(data, function (d) { return d; })])
@@ -131,14 +149,14 @@ angular.module('app')
 	            cards.select("title").text(function(d) { return d.value; });
 	            cards.exit().remove();
 
-	            var legend = svg.selectAll(".legend")
+	            var legend = svgLegend.selectAll(".legend")
 	            				.data([0].concat(colorScale.quantiles()), function(d) { return d; });
 	            legend.enter().append("g")
 	            			  .attr("class", "legend");
 
 	            legend.append("rect")
 	            	  .attr("x", function(d, i) { return legendElementWidth * i; })
-	            	  .attr("y", height)
+	            	  .attr("y", 14)
 	            	  .attr("width", legendElementWidth)
 	            	  .attr("height", gridSize / 2)
 	            	  .style("fill", function(d, i) { return colors[i]; });
@@ -147,7 +165,7 @@ angular.module('app')
 	            	  .attr("class", "mono")
 	            	  .text(function(d) { return "≥ " + Math.round(d); })
 	            	  .attr("x", function(d, i) { return legendElementWidth * i; })
-	            	  .attr("y", height + gridSize);
+	            	  .attr("y", 50);
 	            legend.exit().remove();
 	            done();
 			}

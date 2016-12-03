@@ -54,17 +54,12 @@ angular.module('app')
 
 	$scope.filterForm = {};
 	$scope.filterForm.communities = [];
-	var i = 1;
 	for(var prop in UtilSrvc.community) {
-		$scope.filterForm.communities.push({
-			comm: UtilSrvc.community[prop].Name,
-			ind: i
-		});
-		i++;
+		$scope.filterForm.communities.push(UtilSrvc.community[prop]);
 	}
+
 	$scope.filterForm.communities = $scope.filterForm.communities.sort(function(a, b) {
-		if(a.comm < b.comm) return -1;
-		else return 1;
+		return a.Idx - b.Idx;
 	});
 	$scope.filterForm.startDates = UtilSrvc.dates;
 	$scope.filterForm.endDates = [];
