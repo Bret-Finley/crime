@@ -72,7 +72,6 @@ angular.module('app')
 	        	communities = communities.sort(function(a, b) {
 	        		return a.Idx - b.Idx;
 	        	});
-	        	console.log(communities)
 	        	var min = d3.min(communities, function(d) {
 	        		return d.Idx;
 	        	});

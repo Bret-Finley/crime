@@ -341,7 +341,7 @@ angular.module('app')
 	    "57": {
 	        Name: "Archer Heights",
 	        Code: 57,
-	        Abbr: "Archr Hghts",
+	        Abbr: "Achr Hghts",
 	        Idx: 1
 	    },
 	    "58": {
