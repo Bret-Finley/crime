@@ -46,6 +46,20 @@ angular.module('app')
 	        									.attr("height", 100)
 	        									.append("g");
 
+	        var svgComms = d3.select("#comms").append("svg");
+	        var commGroup = svgComms.append("g");
+
+	        var svgTypes = d3.select("#types").append("svg");
+	        var typeGroup = svgTypes.append("g");
+
+	        var svg = d3.select("#heat").append("svg");
+	        var svgGroup = svg.append("g");
+            							 // //.attr("width", width + margin.left + margin.right)
+            							 // .attr("width", communities.length * gridSize)
+            							 // .attr("height", types.length * gridSize)
+            							 // .append("g")
+            							 // //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
             function getCommFromIndex(i) {
             	return Math.floor(i / types.length);
             }
@@ -55,9 +69,6 @@ angular.module('app')
             }
 
             var cards;
-            var svgComms;
-            var svgTypes;
-            var svg;
             var commLabels;
             var typeLabels;
             var communities;
@@ -87,36 +98,32 @@ angular.module('app')
 	        		data[i] = data[i] || 0;
 	        	}
 
-	        	svgComms = d3.select("#comms").append("svg")
-	        								  .attr("width", communities.length * gridSize)
-	        								  .attr("height", 60)
-	        								  .append("g");
+	        	svgComms.attr("width", communities.length * gridSize)
+						.attr("height", 60);
 
-	        	svgTypes = d3.select("#types").append("svg")
-	        								  .attr("width", 80)
-	        								  .attr("height", types.length * gridSize)
-	        								  .append("g");
+	        	svgTypes.attr("width", 80)
+	        			.attr("height", types.length * gridSize);
 
-	        	svg = d3.select("#heat").append("svg")
-            							 //.attr("width", width + margin.left + margin.right)
-            							 .attr("width", communities.length * gridSize)
-            							 .attr("height", types.length * gridSize)
-            							 .append("g")
-            							 //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	        	svg.attr("width", communities.length * gridSize)
+	        	   .attr("height", types.length * gridSize);
 
-	        	commLabels = svgComms.selectAll(".commLabel")
-            					.data(communities)
-            					.enter().append("text")
-            					.text(function(d) { return d.Abbr; })
-            					.attr("x", function(d, i) { return i * gridSize; })
-            					.attr("y", 0)
-            					.style("text-anchor", "start")
-            					.attr("transform", function(d, i) {
-            						return "translate(10,60)rotate(-45,"+ i * gridSize +",0)";
-            					})
-            					.attr("class", "mono");
+	        	commGroup.selectAll("*").remove();
+	        	typeGroup.selectAll("*").remove();
+	        	svgGroup.selectAll("*").remove();
 
-            	typeLabels = svgTypes.selectAll(".typeLabel")
+	        	commLabels = commGroup.selectAll(".commLabel")
+	        						  .data(communities)
+	        						  .enter().append("text")
+	        						  .text(function(d) { return d.Abbr; })
+	        						  .attr("x", function(d, i) { return i * gridSize; })
+	        						  .attr("y", 0)
+	        						  .style("text-anchor", "start")
+	        						  .attr("transform", function(d, i) {
+	        						  	return "translate(10,60)rotate(-45,"+ i * gridSize +",0)";
+	        						  })
+	        						  .attr("class", "mono");
+
+            	typeLabels = typeGroup.selectAll(".typeLabel")
             					.data(types)
             					.enter()
             					.append("text")
@@ -131,7 +138,7 @@ angular.module('app')
 	        							 .domain([0, colors.length, d3.max(data, function (d) { return d; })])
 	        							 .range(colors);
 
-	        	cards = svg.selectAll(".hour")
+	        	cards = svgGroup.selectAll(".hour")
 	        			   .data(data);
 
 	        	cards.append("title");
@@ -145,7 +152,7 @@ angular.module('app')
 	        		 		 .attr("height", gridSize)
 	        		 		 .style("fill", function(d) { var t = d || 0; return colorScale(t) });
 
-	            cards.select("title").text(function(d) { return d.value; });
+	            cards.select("title").text(function(d) { return d; });
 	            cards.exit().remove();
 
 	            var legend = svgLegend.selectAll(".legend")
