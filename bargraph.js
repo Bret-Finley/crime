@@ -15,14 +15,14 @@ angular.module('app')
 			$scope.selectedCrime = "";
 			$scope.mycrimes = [];
 			$scope.updateChart = function() {
-				console.log($scope.selectedCrime);
+				update();
 			};
 
-			var margin = { top: 20, right: 0, bottom: 100, left: 0 };
+			var margin = { top: 10, right: 0, bottom: 100, left: 0 };
 	        var height = 500;
 	        var rectWidth = 20;
 	        var xAxisFudge = 80;
-	        var yAxisFudge = 80;
+	        var yAxisFudge = 40;
 	        var svg = d3.select("#graph").append("svg");
             var svgGroup = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -43,7 +43,7 @@ angular.module('app')
 	        	communities = communities.sort(function(a, b) {
 	        		return a.Idx - b.Idx;
 	        	});
-				$scope.selectedCrime = $scope.mycrimes[0];
+				$scope.selectedCrime = $scope.selectedCrime || $scope.mycrimes[0];
 
 				var raw = $scope.highData;
 				var min = d3.min(communities, function(d) {
@@ -66,8 +66,8 @@ angular.module('app')
 	        	   .attr("height", height);
 				
 				var x = d3.scale.linear()
-						  .domain([0, data.length])
-						  .range([yAxisFudge, data.length * rectWidth]);
+						  		.domain([0, data.length])
+						  		.range([yAxisFudge, data.length * rectWidth]);
 				var y = d3.scale.linear()
 								.domain([0, d3.max(data)])
 								.range([height - xAxisFudge, 0]);
@@ -82,10 +82,13 @@ angular.module('app')
 
 				var xAxisPlacement = height - xAxisFudge;
 
+				svgGroup.selectAll("*").remove();
+
 				svgGroup.selectAll("rect")
 				        .data(data)
 				        .enter()
 				        .append("rect")
+				        .attr("class", "bar")
 				        .attr("x", function(d, i) { return x(i); })
 				        .attr("y", function(d, i) { return y(d); })
 				        .attr("width", 20)
@@ -96,7 +99,7 @@ angular.module('app')
 						.call(xAxis)
 						.selectAll("text")
 						.style("text-anchor", "start")
-						.attr("transform", "rotate(45,0,9)");
+						.attr("transform", "translate(" + rectWidth/2 + ",0)rotate(65,0,9)");
 				svgGroup.append("g")
 						.attr("transform", "translate(" + yAxisFudge + ",0)")
 						.call(yAxis);
