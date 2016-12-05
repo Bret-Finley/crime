@@ -1,0 +1,15 @@
+<div class="row" style="margin-top: 60px;">
+	<div class="col-md-12" id="graph"></div>
+</div>
+<div class="row" style="margin-top: 10px;">
+	<div class="col-md-3"></div>
+	<div class="col-md-4">
+		<select class="form-control" ng-model="selectedCrime">
+			<option ng-repeat="d in mycrimes" value="{{d}}">{{ d }}</option>
+		</select>
+	</div>
+	<div class="col-md-2">
+		<button type="button"  class="btn btn-primary" ng-click="updateChart()">Submit</button>
+	</div>
+	<div class="col-md-3"></div>
+</div>

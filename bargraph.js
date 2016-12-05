@@ -3,80 +3,103 @@ angular.module('app')
 .directive("crimeBargraph", function(UtilSrvc) {
 	return {
 		restrict: 'E',
-		template: '<div id="graph"></div>',
+		templateUrl: 'barchart.html',
 		link: function($scope, element, attrs) {
 
 			$scope.$watch(function() {
 				return $scope.highData;
 			}, function() {
-				//console.log("High Data is changing!")
 				update();
 			}, true);
 
-			var margin = { top: 50, right: 0, bottom: 100, left: 50 };
-		    var width = 960 - margin.left - margin.right;
-	        var height = 430 - margin.top - margin.bottom;
-	        var svg = d3.select("#graph").append("svg")
-            							 .attr("width", width + margin.left + margin.right)
-            							 .attr("height", height + margin.top + margin.bottom)
-            							 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-            var start = 2010;
-			var end = 2012;
-            function dateToIndex(d) {
-            	return (d.getFullYear() - start) * 12 + d.getMonth();
-            };
+			$scope.selectedCrime = "";
+			$scope.mycrimes = [];
+			$scope.updateChart = function() {
+				console.log($scope.selectedCrime);
+			};
 
-            function indexToDate(i) {
-            	i++;
-            	var month = i % 12;
-            	var year = Math.floor(i / 12) + start;
-            	return month + "/" + year.toString().substring(2);
-            };
+			var margin = { top: 20, right: 0, bottom: 100, left: 0 };
+	        var height = 500;
+	        var rectWidth = 20;
+	        var xAxisFudge = 80;
+	        var yAxisFudge = 80;
+	        var svg = d3.select("#graph").append("svg");
+            var svgGroup = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+            function findCommunity(i) {
+            	return _.find(UtilSrvc.community, function(d) {
+            		return d.Idx === i;
+            	});
+            }
+
+            var communities;
 			function update() {
 				if(!$scope.highData) return;
+				$scope.mycrimes = $scope.filterForm.selectedTypes ? $scope.filterForm.selectedTypes : UtilSrvc.types;
+				var myCommunities = $scope.filterForm.selectedComms ? $scope.filterForm.selectedComms : d3.range(1, 78);
+				communities = myCommunities.map(function(d) {
+	        		return UtilSrvc.community[d];
+	        	});
+	        	communities = communities.sort(function(a, b) {
+	        		return a.Idx - b.Idx;
+	        	});
+				$scope.selectedCrime = $scope.mycrimes[0];
+
 				var raw = $scope.highData;
-				var data = [];
+				var min = d3.min(communities, function(d) {
+	        		return d.Idx;
+	        	});
+	        	var data = [];
+	        	raw.forEach(function(d, i) {
+        			var index = d.Community.Idx - min;
+        			if(d.Type === $scope.selectedCrime) {
+        				if(!data[index]) data[index] = 1;
+        				else data[index]++;
+        			}
+	        	});
+
+	        	for(var i = 0; i < data.length; i++) {
+	        		data[i] = data[i] || 0;
+	        	}
+
+	        	svg.attr("width", data.length * rectWidth)
+	        	   .attr("height", height);
 				
-				var numMonths = (end - start + 1) * 12;
-				raw.forEach(function(d, i) {
-					var index = dateToIndex(d.Date);
-					if(!data[index]) data[index] = 1;
-	        		else data[index]++;
-				});
-
-				for(var i = 0; i < numMonths; i++) {
-					if(!data[i])
-						data[i] = 0;
-				}
-
 				var x = d3.scale.linear()
 						  .domain([0, data.length])
-						  .range([0, width]);
+						  .range([yAxisFudge, data.length * rectWidth]);
 				var y = d3.scale.linear()
 								.domain([0, d3.max(data)])
-								.range([0, height]);
+								.range([height - xAxisFudge, 0]);
 
 				var xAxis = d3.svg.axis()
 								  .scale(x)
-								  .tickValues(d3.range(0, data.length, 2))
-								  .tickFormat(function(d) { return indexToDate(d); })
+								  .tickFormat(function(d) { return findCommunity(d).Abbr; })
 								  .orient("bottom");
+				var yAxis = d3.svg.axis()
+								  .scale(y)
+								  .orient("left");
 
-				svg.selectAll("rect")
-				   .data(data)
-				   .enter()
-				   .append("rect")
-				   .attr("x", function(d, i) { return x(i); })
-				   .attr("y", function(d) { return height - y(d); })
-				   .attr("width", 5)
-				   .attr("height", function(d) { return y(d); });
+				var xAxisPlacement = height - xAxisFudge;
 
-				svg.append("g")
-				   .attr("transform", "translate(0, 280)")
-				   .call(xAxis)
-				   .selectAll("text")
-				   .style("text-anchor", "middle");
+				svgGroup.selectAll("rect")
+				        .data(data)
+				        .enter()
+				        .append("rect")
+				        .attr("x", function(d, i) { return x(i); })
+				        .attr("y", function(d, i) { return y(d); })
+				        .attr("width", 20)
+				        .attr("height", function(d) { return xAxisPlacement - y(d); });
+
+				svgGroup.append("g")
+						.attr("transform", "translate(0," + xAxisPlacement + ")")
+						.call(xAxis)
+						.selectAll("text")
+						.style("text-anchor", "start")
+						.attr("transform", "rotate(45,0,9)");
+				svgGroup.append("g")
+						.attr("transform", "translate(" + yAxisFudge + ",0)")
+						.call(yAxis);
 			}
 		}
 	}

@@ -30,7 +30,6 @@ angular.module('app')
 			$scope.$watch(function() {
 				return $scope.highData;
 			}, function() {
-				console.log("High Data is changing!")
 				update();
 			}, true);
 
@@ -39,7 +38,7 @@ angular.module('app')
 	        var height = 430 - margin.top - margin.bottom;
 	        var gridSize = 50;
 	        var legendElementWidth = 80;
-	        var colors = ["#2166ac", "#4393c3", "#92c5de", "#d1e5f0", "#f7f7f7", "#fddbc7", "#f4a582", "#d6604d", "#b2182b"]; // alternatively colorbrewer.YlGnBu[9]
+	        var colors = ["#2166ac", "#4393c3", "#92c5de", "#d1e5f0", "#f7f7f7", "#fddbc7", "#f4a582", "#d6604d", "#b2182b"];
 
 	        var svgLegend = d3.select("#legend").append("svg")
 	        									.attr("width", 700)
@@ -54,11 +53,6 @@ angular.module('app')
 
 	        var svg = d3.select("#heat").append("svg");
 	        var svgGroup = svg.append("g");
-            							 // //.attr("width", width + margin.left + margin.right)
-            							 // .attr("width", communities.length * gridSize)
-            							 // .attr("height", types.length * gridSize)
-            							 // .append("g")
-            							 // //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             function getCommFromIndex(i) {
             	return Math.floor(i / types.length);
