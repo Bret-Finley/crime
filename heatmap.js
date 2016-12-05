@@ -13,10 +13,10 @@ angular.module('app')
 			function scroll() {
 				if(themap.scrollTop) {
 					var top = -themap.scrollTop;
-					svgTypes.attr("transform", "translate(0," + top + ")");
+					typeGroup.attr("transform", "translate(0," + top + ")");
 				} else {
 					var left = -themap.scrollLeft;
-					svgComms.attr("transform", "translate(" + left + ", 0)");
+					commGroup.attr("transform", "translate(" + left + ", 0)");
 				}
 			}
 

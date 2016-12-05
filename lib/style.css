@@ -113,7 +113,8 @@ rect.bordered {
 }
 
 text.mono {
-	font-size: 9pt;
+	font-size: 10pt;
 	font-family: Consolas, courier;
+	font-weight: bold;
 	fill: #000;
 }
