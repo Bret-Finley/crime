@@ -54,6 +54,10 @@ angular.module('app')
 	        var svg = d3.select("#heat").append("svg");
 	        var svgGroup = svg.append("g");
 
+	        var div = d3.select("body").append("div")
+									  .attr("class", "tooltip")
+									  .style("opacity", 0);
+
             function getCommFromIndex(i) {
             	return Math.floor(i / types.length);
             }
@@ -141,10 +145,25 @@ angular.module('app')
 	        		 		 .attr("y", function(d, i) { return getTypeFromIndex(i) * gridSize; })
 	        		 		 .attr("rx", 4)
 	        		 		 .attr("ry", 4)
-	        		 		 .attr("class", "hour bordered")
+	        		 		 .attr("class", "bordered")
 	        		 		 .attr("width", gridSize)
 	        		 		 .attr("height", gridSize)
-	        		 		 .style("fill", function(d) { var t = d || 0; return colorScale(t) });
+	        		 		 .style("fill", function(d) { var t = d || 0; return colorScale(t) })
+	        		 		 .on("mouseover", function(d, i) {
+	        		 		 	var divComm = communities[getCommFromIndex(i)].Name;
+	        		 		 	var divType = types[getTypeFromIndex(i)];
+	        		 		     div.transition()
+	        		 		        .duration(200)
+	        		 		        .style("opacity", .9);
+	        		 		     div.html("Location: " + divComm + "<br /> Offense: " + divType + "<br /> Freq: " + d)
+	        		 		        .style("left", (d3.event.pageX) + "px")
+	        		 		        .style("top", (d3.event.pageY - 28) + "px");
+	        		 		 })
+	        		 		 .on("mouseout", function(d) {
+	        		 		 	 div.transition()
+	        		 		 	    .duration(500)
+	        		 		 	    .style("opacity", 0);
+	        		 		 });
 
 	            cards.select("title").text(function(d) { return d; });
 	            cards.exit().remove();
