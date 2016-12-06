@@ -31,9 +31,7 @@ angular.module('app')
 									  .style("opacity", 0);
 
             function findCommunity(i) {
-            	return _.find(UtilSrvc.community, function(d) {
-            		return d.Idx === i;
-            	});
+            	return UtilSrvc.community[i];
             }
 
             function getIndexFromComm(c) {
@@ -60,6 +58,9 @@ angular.module('app')
 	        		return d.Idx;
 	        	});
 	        	var data = [];
+	        	for(var i = 0; i < communities.length; i++) {
+	        		data[i] = 0;
+	        	}
 	        	raw.forEach(function(d, i) {
         			var index = getIndexFromComm(d);
         			if(d.Type === $scope.selectedCrime) {
@@ -68,28 +69,24 @@ angular.module('app')
         			}
 	        	});
 
-	        	for(var i = 0; i < data.length; i++) {
-	        		data[i] = data[i] || 0;
-	        	}
-
 	        	var indicies = [];
 	        	for(var i = 0; i < communities.length; i++) {
 	        		indicies.push(communities[i].Idx);
 	        	}
 
-	        	svg.attr("width", data.length * rectWidth + 10)
+	        	svg.attr("width", data.length * rectWidth + 10 + yAxisFudge)
 	        	   .attr("height", height);
 				
 				var x = d3.scale.ordinal()
-						  		.domain(indicies)
-						  		.rangeBands([yAxisFudge, rectWidth * data.length]);
+						  		.domain(d3.range(0, data.length))
+						  		.rangeBands([yAxisFudge, rectWidth * data.length + yAxisFudge]);
 				var y = d3.scale.linear()
 								.domain([0, d3.max(data)])
 								.range([height - xAxisFudge, 0]);
 
 				var xAxis = d3.svg.axis()
 								  .scale(x)
-								  .tickFormat(function(d) { return findCommunity(d).Abbr; })
+								  .tickFormat(function(d) { console.log(d); return communities[d].Abbr; })
 								  .orient("bottom");
 				var yAxis = d3.svg.axis()
 								  .scale(y)
@@ -109,7 +106,7 @@ angular.module('app')
 				        .attr("width", rectWidth)
 				        .attr("height", function(d) { return xAxisPlacement - y(d); })
 				        .on("mouseover", function(d, i) {
-	        		 		var divComm = findCommunity(i).Name;
+	        		 		var divComm = communities[i].Name;
 	        		 		div.transition()
 	        		 		   .duration(200)
 	        		 		   .style("opacity", .9);
