@@ -26,7 +26,7 @@ angular.module('app')
 	        Name: "Lincoln Square",
 	        Code: 4,
 	        Abbr: "Lncn Sqr",
-	        Idx: 40
+	        Idx: 41
 	    },
 	    "5": {
 	        Name: "North Center",
@@ -38,13 +38,13 @@ angular.module('app')
 	        Name: "Lake View",
 	        Code: 6,
 	        Abbr: "Lk Vu",
-	        Idx: 37
+	        Idx: 39
 	    },
 	    "7": {
 	        Name: "Lincoln Park",
 	        Code: 7,
 	        Abbr: "Lncn Prk",
-	        Idx: 38
+	        Idx: 40
 	    },
 	    "8": {
 	        Name: "Near North Side",
@@ -109,7 +109,8 @@ angular.module('app')
 	    "18": {
 	        Name: "Monteclare",
 	        Code: 18,
-	        Abbr: "Mntclr"
+	        Abbr: "Mntclr",
+	        Idx: 37
 	    },
 	    "19": {
 	        Name: "Belmont Cragin",
@@ -132,7 +133,8 @@ angular.module('app')
 	    "22": {
 	        Name: "Logan Square",
 	        Code: 22,
-	        Abbr: "Lgn Sqr"
+	        Abbr: "Lgn Sqr",
+	        Idx: 36
 	    },
 	    "23": {
 	        Name: "Humboldt Park",
@@ -186,13 +188,13 @@ angular.module('app')
 	        Name: "Lower West Side",
 	        Code: 31,
 	        Abbr: "Lwr W. Sd",
-	        Idx: 42
+	        Idx: 43
 	    },
 	    "32": {
 	        Name: "Loop",
 	        Code: 32,
 	        Abbr: "Lp",
-	        Idx: 41
+	        Idx: 42
 	    },
 	    "33": {
 	        Name: "Near South Side",
@@ -234,7 +236,7 @@ angular.module('app')
 	        Name: "Kenwood",
 	        Code: 39,
 	        Abbr: "Knwd",
-	        Idx: 36
+	        Idx: 38
 	    },
 	    "40": {
 	        Name: "Washington Park",

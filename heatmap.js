@@ -11,13 +11,10 @@ angular.module('app')
 			var maxScrollWidth;
 			var maxScrollHeight;
 			function scroll() {
-				if(themap.scrollTop) {
-					var top = -themap.scrollTop;
-					typeGroup.attr("transform", "translate(0," + top + ")");
-				} else {
-					var left = -themap.scrollLeft;
-					commGroup.attr("transform", "translate(" + left + ", 0)");
-				}
+				var top = -themap.scrollTop || 0;
+				var left = -themap.scrollLeft || 0;
+				typeGroup.attr("transform", "translate(0," + top + ")");
+				commGroup.attr("transform", "translate(" + left + ", 0)");
 			}
 
 			function done() {
@@ -38,7 +35,7 @@ angular.module('app')
 	        var height = 430 - margin.top - margin.bottom;
 	        var gridSize = 50;
 	        var legendElementWidth = 80;
-	        var colors = ["#2166ac", "#4393c3", "#92c5de", "#d1e5f0", "#f7f7f7", "#fddbc7", "#f4a582", "#d6604d", "#b2182b"];
+	        var colors = ["#d1e5f0", "#92c5de", "#4393c3", "#3781ae", "#f7f7f7", "#fddbc7", "#f4a582", "#d6604d", "#b2182b"];
 
 	        var svgLegend = d3.select("#legend").append("svg")
 	        									.attr("width", 700)
@@ -55,11 +52,17 @@ angular.module('app')
 	        var svgGroup = svg.append("g");
 
 	        var div = d3.select("body").append("div")
-									  .attr("class", "tooltip")
+									  .attr("class", "heattip")
 									  .style("opacity", 0);
 
             function getCommFromIndex(i) {
             	return Math.floor(i / types.length);
+            }
+
+            function getIndexFromComm(c) {
+            	return _.findIndex(communities, function(o) {
+            		return o.Code === c.Community.Code;
+            	});
             }
 
             function getTypeFromIndex(i) {
@@ -87,7 +90,7 @@ angular.module('app')
 	        	var raw = $scope.highData;
 	        	var data = [];
 	        	raw.forEach(function(d, i) {
-        			var index = (d.Community.Idx - min) * types.length + types.indexOf(d.Type);
+        			var index = getIndexFromComm(d) * types.length + types.indexOf(d.Type);
         			if(!data[index]) data[index] = 1;
         			else data[index]++;
 	        	});
@@ -96,7 +99,7 @@ angular.module('app')
 	        		data[i] = data[i] || 0;
 	        	}
 
-	        	svgComms.attr("width", communities.length * gridSize)
+	        	svgComms.attr("width", communities.length * gridSize + 10)
 						.attr("height", 60);
 
 	        	svgTypes.attr("width", 80)
@@ -141,15 +144,15 @@ angular.module('app')
 
 	        	cards.append("title");
 	        	cards.enter().append("rect")
-	        		 		 .attr("x", function(d, i) { return getCommFromIndex(i) * gridSize; })
-	        		 		 .attr("y", function(d, i) { return getTypeFromIndex(i) * gridSize; })
-	        		 		 .attr("rx", 4)
-	        		 		 .attr("ry", 4)
-	        		 		 .attr("class", "bordered")
-	        		 		 .attr("width", gridSize)
-	        		 		 .attr("height", gridSize)
-	        		 		 .style("fill", function(d) { var t = d || 0; return colorScale(t) })
-	        		 		 .on("mouseover", function(d, i) {
+	        		 		.attr("x", function(d, i) { return getCommFromIndex(i) * gridSize; })
+	        		 		.attr("y", function(d, i) { return getTypeFromIndex(i) * gridSize; })
+	        		 		.attr("rx", 4)
+	        		 		.attr("ry", 4)
+	        		 		.attr("class", "bordered")
+	        		 		.attr("width", gridSize)
+	        		 		.attr("height", gridSize)
+	        		 		.style("fill", function(d) { var t = d || 0; return colorScale(t) })
+	        		 		.on("mouseover", function(d, i) {
 	        		 		 	var divComm = communities[getCommFromIndex(i)].Name;
 	        		 		 	var divType = types[getTypeFromIndex(i)];
 	        		 		     div.transition()
@@ -158,12 +161,12 @@ angular.module('app')
 	        		 		     div.html("Location: " + divComm + "<br /> Offense: " + divType + "<br /> Freq: " + d)
 	        		 		        .style("left", (d3.event.pageX) + "px")
 	        		 		        .style("top", (d3.event.pageY - 28) + "px");
-	        		 		 })
-	        		 		 .on("mouseout", function(d) {
+	        		 		})
+	        		 		.on("mouseout", function(d) {
 	        		 		 	 div.transition()
 	        		 		 	    .duration(500)
 	        		 		 	    .style("opacity", 0);
-	        		 		 });
+	        		 		});
 
 	            cards.select("title").text(function(d) { return d; });
 	            cards.exit().remove();
