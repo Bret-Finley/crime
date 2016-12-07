@@ -69,6 +69,10 @@ angular.module('app')
             	return i % types.length;
             }
 
+            function getAbbreviation(t) {
+            	return UtilSrvc.typeAbbrs[UtilSrvc.types.indexOf(t)];
+            }
+
             var cards;
             var commLabels;
             var typeLabels;
@@ -95,9 +99,11 @@ angular.module('app')
         			else data[index]++;
 	        	});
 
-	        	for(var i = 0; i < data.length; i++) {
+	        	for(var i = 0; i < communities.length * types.length; i++) {
 	        		data[i] = data[i] || 0;
 	        	}
+
+	        	console.log(data)
 
 	        	svgComms.attr("width", communities.length * gridSize + 10)
 						.attr("height", 60);
@@ -128,7 +134,7 @@ angular.module('app')
             					.data(types)
             					.enter()
             					.append("text")
-            					.text(function (d, i) { return UtilSrvc.typeAbbrs[i]; })
+            					.text(function (d, i) { return getAbbreviation(d); })
             					.attr("x", 0)
             					.attr("y", function (d, i) { return i * gridSize; })
             					.style("text-anchor", "end")

@@ -30,10 +30,6 @@ angular.module('app')
 									  .attr("class", "bartip")
 									  .style("opacity", 0);
 
-            function findCommunity(i) {
-            	return UtilSrvc.community[i];
-            }
-
             function getIndexFromComm(c) {
             	return _.findIndex(communities, function(o) {
             		return o.Code === c.Community.Code;
@@ -86,7 +82,7 @@ angular.module('app')
 
 				var xAxis = d3.svg.axis()
 								  .scale(x)
-								  .tickFormat(function(d) { console.log(d); return communities[d].Abbr; })
+								  .tickFormat(function(d) { return communities[d].Abbr; })
 								  .orient("bottom");
 				var yAxis = d3.svg.axis()
 								  .scale(y)
