@@ -13,6 +13,7 @@ angular.module('app')
 	}
 
 	function filter() {
+		if(!$scope.highData) return $scope.visibleData;
 		return $scope.highData.filter(function(d, i) {
 			return d.Latitude > $scope.minLat &&
 				  d.Latitude < $scope.maxLat &&
@@ -36,16 +37,15 @@ angular.module('app')
 	function reset() {
 		$scope.filterForm.startingDate = "2010";
 		$scope.filterForm.endingDate = "2014";
-		$scope.filterForm.endDates = [2010, 2011, 2012, 2013, 2014, 2015, 2016];
-		$scope.filterForm.selectedComms = undefined;
-		$scope.filterForm.selectedTypes = undefined;
+		$scope.filterForm.endDates = [2014, 2015, 2016];
+		$scope.filterForm.selectedComms = ["11", "12", "13", "14"];
+		$scope.filterForm.selectedTypes = ["ARSON", "ASSAULT", "BATTERY", "BURGLARY"];
 	};
 
 	$scope.map = MapSrvc.initMap();
 
 	$scope.visibleData = [];
-	google.maps.event.addListener($scope.map, 'dragend', mapChange);
-	google.maps.event.addListener($scope.map, 'zoom_changed', mapChange);
+	google.maps.event.addListener($scope.map, 'bounds_changed', mapChange);
 
 	$scope.minLat;
 	$scope.maxLat;
@@ -87,6 +87,13 @@ angular.module('app')
 
 	$scope.updateMap = function() {
 		MapSrvc.removeMarkers();
+		if($scope.filterForm.selectedComms.length == 0) {
+			$scope.filterForm.selectedComms = undefined;
+		}
+
+		if($scope.filterForm.selectedTypes.length == 0) {
+			$scope.filterForm.selectedTypes = undefined;
+		}
 		DataSrvc.getData($scope.filterForm.startingDate, $scope.filterForm.endingDate,
 			$scope.filterForm.selectedComms, $scope.filterForm.selectedTypes).then(function(data) {
 				$scope.highData = data.map(function(d) {

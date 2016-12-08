@@ -103,8 +103,6 @@ angular.module('app')
 	        		data[i] = data[i] || 0;
 	        	}
 
-	        	console.log(data)
-
 	        	svgComms.attr("width", communities.length * gridSize + 10)
 						.attr("height", 60);
 

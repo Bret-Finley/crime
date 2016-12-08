@@ -33,24 +33,6 @@ app.get('/data', function(req, res) {
     var z = Date.now() - a;
     console.log("fetched " + b.length + " records in "  + z + " milliseconds")
     res.send(b)
-
-    // fs.createReadStream('data/test.csv')
-    // .pipe(csv())
-    // .on('data', function (data) {
-    //     var year = new Date(data.Date).getFullYear();
-    //     if(year >= begin && year <= end) {
-    //         if(communities.indexOf(data["Community Area"]) != -1 || communities[0] == "all") {
-    //             if(types.indexOf(data["Primary Type"]) != -1 || types[0] == "all") {
-    //                 b.push(data);
-    //             }
-    //         }
-    //     }
-    // })
-    // .on('end', function () {
-    //     var z = Date.now() - a;
-    //     console.log("fetched " + b.length + " records in "  + z + " milliseconds")
-    //     res.send(b);
-    // })
 });
 
 var port = 3000;
@@ -62,7 +44,7 @@ app.listen(port, function() {
 var data;
 function loadData() {
     data = [];
-    fs.createReadStream('data/test.csv')
+    fs.createReadStream('data/smallset.csv')
     .pipe(csv())
     .on('data', function (d) {
         data.push(d);
