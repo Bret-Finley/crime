@@ -11,31 +11,49 @@ images/ - Directory containing images for the MarkerCluster library for Google
 lib/ - Directory that contains library scripts and style sheets for the project.
 	I use a number of third party software packages and they all can be found
 	here.
+node_modules/ - This directory is created when the user runs the "npm install"
+	command in order to initialize the project. This directory contans pertinent
+	node software modules which the server uses in order to operate.
 .gitignore - Ignore file for GitHub, which I've been using for source control.
 app.js - Angular module declaration file. The project became too unwieldly to
 	house in a single script, AngularJS became necessary in orer to better
 	modularize my project.
+barchart.html - Template file for the barchart view of the visualization.
+bargraph.js - This JavaScript file provides the programming logic for the
+	bargraph. This includes D3 code as well as data aggregation when the
+	over-arching dataset changes.
 controller.js - Main controller file. This is the only controller in the
 	application, most logic can be found here.
-directives.js -Script containing directive declarations.  haven't put together
-	any directives yet, but this is probably where all of the relevant D3 code
-	will go.
+heatmap.html - Template file for the heatmap view of the visualization.
+heatmap.js - This JavaScript file contains the programming logic for the
+	heatmap. This includes D3 code as well as data aggregation when the
+	over-arching dataset changes.
 index.html - This is the main HTML file for executing the application. This
 	contains all of the relevant markup for the project and contains some
 	Angular templating
+index.js - Server file. This contains all of the NodeJS code for executing the
+	backend, as well as serving HTML files and crime data.
+package.json - Node project dependency file which keeps track of all of the node
+	packages which this applicaiton uses. The command "node install" will need
+	to be run in order to install these packages prior to execution.
+README - This readme documentation file.
 services.js - Angular services module. This file contains reusable library code
 	for the rest of the project. Things like data access and date formatting are
 	done here.
 
 2) Running
-All of the relevant libraries have been included locally for this project.
-Simply start a webserver which serves from the same directory as index.html.
-Once index.html is browsed to, it will execute scripts to grab the other
-resources in the project. The dataset can be downloaded from:
-https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2
-But I have also inlcuded a cut down dataset which should be run with the current
-version of the project. Test.csv is about 3 MB big and contains rows of records
-in comma separated value format.
+This project requires an installation of NodeJS on the server machine. NodeJS
+comes with the Node Package Manager which can be used to install relevant
+packages needed to run the application. Node can be downloaded at the following
+url: https://nodejs.org/en/. Once Node has been downloaded and installed on the
+server machine, the command "npm" should be available to you. Simply change into
+the top level directory (which contains the package.json file) and run the
+command "npm install". This will look at the dependencies required by the
+project and downloaded and install them locally. Once the packages have been
+installed, to run the server program, simply run "node index.js" from the same
+directory. This will execute the server script and start an HTTP server running
+on port 3000, or whichever port has been specified within the server script.
+Simply browse to http://localhost:3000/ to view the running application.
 
 3) Data
 The data being visualized is a collection of reported crimes occuring within the
