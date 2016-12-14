@@ -6,6 +6,8 @@ Visualization Techniques
 1) Included Files
 data/ - Directory containing various data files. "test.csv" is a cut down file
 	that I've been using for most tests.
+docs/ - Documentation directory which contains the project report, user manual,
+	as well as Power Point presentation.
 images/ - Directory containing images for the MarkerCluster library for Google
 	Maps.
 lib/ - Directory that contains library scripts and style sheets for the project.
