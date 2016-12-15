@@ -12,6 +12,10 @@ table {
 	border: 3px solid #F7F7F9;
 }
 
+.hrbreak {
+	margin-top: 0px;
+}
+
 .iwhr {
 	clear: both;
 	margin-top: 5px;
