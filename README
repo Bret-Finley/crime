@@ -60,7 +60,7 @@ Simply browse to http://localhost:3000/ to view the running application.
 3) Data
 The data being visualized is a collection of reported crimes occuring within the
 city of Chicago, Illinois. These records have been sampled between January 1,
-2001, and Novembe 1, 2016. These records contain a variety of dimensions.
+2001, and November 1, 2016. These records contain a variety of dimensions.
 
 ID - Unique identifier for the case.
 Case Number - Incremental numberic value representing that particular case.
@@ -83,33 +83,28 @@ Longitude - Geographical longitude value where the crime was reported.
 Location - Combination of latitude and longitude values.
 
 4) Project
-This project is meant to give the user the ability to explore the crime history
-surrounding the city of Chicago, Illinois. Though the data is pulled from the
-last 15 years, there is still a lot to explore and discover concerning different
-demographics of crime and how they releate to the different areas of Chicago.
-Presently, the project consists of a few different views. At the top of the
-application is a form for filtering what I call the "top-level" dataset. This
-pretains to the data shown on the map in the left half of the screen. Users
-will be able to filter by year, type, and I want to add community area as well.
-Right now the filtering function doesn't work. The map view shows markers which
-pretain to a single instance of a reported crime within the city of Chicago. The
-colored circles show the number of markers present near that location. Clicking
-on these circles dives deeper into the map, giving the user a more granular view
-of the data. Eventually the user will get to an individual marker, which they
-can click. This will open an info window which will present some information
-concerning that crime in particular. Adjacent to the map is a table view of the
-crimes that are currently visible on the map. When the user pans the map around
-this will update the data displayed within the table. Each row in the table has
-a button which will pan the map to that crime's location.
-
-Going forward, I'd like to include some kind of histogram, or other D3 artifcat
-which will help the user explore the data more in-dept. I would like to have two
-views at the bottom of the screen. The first view could show an overfiew
-histogram of all of the aggregated data in the visualization. This could show
-the various types and amounts of crime distributed between Chicago's 77
-community areas. I may even try to add a combo box which allows the user to
-select which criteria to group the histogram with. The next screen I think will
-be a histogram of the local area of the map. This will show similar data to the
-other histogram, but will consist of only the data which is shown on the current
-map screen. I want this histogram to update in realtime so the user can get a
-feel as to trends in criminal activity depending on where they pan the map view.
+This project consists of four main views with a filter bar that is used for
+filtering the overall dataset. Data is loaded when the server is started, data
+is then requested by the frontend and pushed to these views. Data is requested
+via an HTTP GET method call which passes route parameters used to filter the
+data. Users can filter by date range, as well as crime type and the community
+area the crimes occurred in. The first view is a Google Maps window which
+represents the crimes geographically. Crimes are clustered together to improve
+map performance. Clicking on a cluster zooms closer to that cluster. There are
+manual zoom controls, as well as a toggle button which switches the map between
+stylized and sattelite map views. A stick figure control also allows the user to
+drag and drop this control anywhere on the map. This will provide the user with
+a street view of that particular location. The table view shows the points
+visible in the current map window. Only 20 points are shown in the table, so the
+user will have to press the "Load More" button to show more rows in the table. A
+query bar appears above the table which allows users to search the table by
+specific criteria. The lower left corner displays the heat map view which
+displays crime density by the community they occurred in and the type of crime
+that was committed. Hovering over one of the squares will display a textual
+version of the data represented by that particular square. The adjacent bar
+graph represents a slice of the data being represented by the heat map. In this
+view, the y-axis represents the frequency of the particular crime, while the
+x-axis shows the community area. Below this graph is a select box which allows
+the user to select the particular type of crime which the graph represents. In
+effect, the graph gives the user a different kind of representation of the same
+data being shown on each row of the heat map.
